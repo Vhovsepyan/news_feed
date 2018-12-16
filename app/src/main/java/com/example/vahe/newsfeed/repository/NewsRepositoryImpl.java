@@ -33,29 +33,32 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public PageInfo getPageInfoFromApi() {
-        String data = requestHelper.getNews(Constants.SEARCH_URL);
-        PageInfo pageInfo = null;
-        try {
+    public void getPageInfoFromApi(String url, OnListReadyListener onListReadyListener) {
+        getExecutor(ExecutorType.SERVER_COMMUNICATION).execute(() -> {
+            String data = requestHelper.getNews(url);
+            PageInfo pageInfo = null;
+            try {
 
-            JSONObject jsonObject = new JSONObject(data);
-            Gson gson = new GsonBuilder().create();
-            Type collectionType = new TypeToken<PageInfoRequestModel>() {}.getType();
-            PageInfoRequestModel info = gson.fromJson(jsonObject.getJSONObject(Constants.RESPONSE_KEY).toString(), collectionType);
-            if (info != null){
-                pageInfo = new PageInfo(info);
+                JSONObject jsonObject = new JSONObject(data);
+                Gson gson = new GsonBuilder().create();
+                Type collectionType = new TypeToken<PageInfoRequestModel>() {
+                }.getType();
+                PageInfoRequestModel info = gson.fromJson(jsonObject.getJSONObject(Constants.RESPONSE_KEY).toString(), collectionType);
+                if (info != null) {
+                    pageInfo = new PageInfo(info);
+                    onListReadyListener.onReady(pageInfo.getArticles());
+                }
+
+            } catch (JSONException ex) {
+                ex.printStackTrace();
             }
-
-        } catch (JSONException ex){
-            ex.printStackTrace();
-        }
-        return pageInfo;
+        });
     }
 
 
     @Override
     public void getArticlesFromDB(OnListReadyListener onListReadyListener) {
-        getExecutor(ExecutorType.DB_COMMUNICATION).execute(()->{
+        getExecutor(ExecutorType.DB_COMMUNICATION).execute(() -> {
             List<Article> articles = articleDao.getPinnedArticles();
             onListReadyListener.onReady(articles);
         });
@@ -63,14 +66,14 @@ public class NewsRepositoryImpl implements NewsRepository {
 
     @Override
     public void insert(Article items) {
-        getExecutor(ExecutorType.DB_COMMUNICATION).execute(()->{
+        getExecutor(ExecutorType.DB_COMMUNICATION).execute(() -> {
             articleDao.insert(new ArticleTable(items));
         });
     }
 
     @Override
     public void update(Article items) {
-        getExecutor(ExecutorType.DB_COMMUNICATION).execute(()->{
+        getExecutor(ExecutorType.DB_COMMUNICATION).execute(() -> {
             articleDao.update(new ArticleTable(items));
         });
 
@@ -78,12 +81,12 @@ public class NewsRepositoryImpl implements NewsRepository {
 
     @Override
     public void delete(Article items) {
-        getExecutor(ExecutorType.DB_COMMUNICATION).execute(()-> {
+        getExecutor(ExecutorType.DB_COMMUNICATION).execute(() -> {
             articleDao.delete(new ArticleTable(items));
         });
     }
 
-    private Executor getExecutor(@ExecutorType int type){
+    private Executor getExecutor(@ExecutorType int type) {
         return ExecutorService.getExecutor(type);
     }
 }

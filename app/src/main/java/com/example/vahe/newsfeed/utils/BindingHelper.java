@@ -38,7 +38,6 @@ public class BindingHelper {
     @BindingAdapter({"src"})
     public static void loadImage(ImageView view, String url) {
         if (!TextUtils.isEmpty(url)) {
-            url += Constants.IMG_KEY;
             Glide.with(view.getContext())
                     .load(url)
                     .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))

@@ -1,8 +1,6 @@
 package com.example.vahe.newsfeed.http;
 
 
-import com.example.vahe.newsfeed.utils.Constants;
-
 import java.io.IOException;
 
 import okhttp3.OkHttpClient;
@@ -17,7 +15,6 @@ public class RequestHelperImpl implements RequestHelper {
     public String getNews(String url) {
         Request request = new Request.Builder()
                 .url(url)
-                .addHeader(Constants.API_KEY, Constants.API_VALUE)
                 .build();
         try {
             Response response = client.newCall(request).execute();
