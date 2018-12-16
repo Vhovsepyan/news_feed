@@ -6,14 +6,14 @@ import android.view.View;
 import com.example.vahe.newsfeed.BR;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.model.BaseObject;
-import com.example.vahe.newsfeed.screens.BaseClickListener;
+import com.example.vahe.newsfeed.listener.BaseClickListener;
 import com.example.vahe.newsfeed.screens.BaseRecyclerViewHolder;
 
-public class NewsItemViewHolder extends BaseRecyclerViewHolder {
+public class ArticleVerticalViewHolder extends BaseRecyclerViewHolder {
     private ViewDataBinding binding;
     private BaseClickListener baseClickListener;
 
-    public NewsItemViewHolder(View itemView, BaseClickListener baseClickListener) {
+    public ArticleVerticalViewHolder(View itemView, BaseClickListener baseClickListener) {
         super(itemView);
         this.baseClickListener = baseClickListener;
         binding = DataBindingUtil.bind(itemView);

@@ -1,18 +1,35 @@
 package com.example.vahe.newsfeed.screens.info;
 
+import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.vahe.newsfeed.BR;
+import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.R;
 import com.example.vahe.newsfeed.screens.BaseFragment;
 import com.example.vahe.newsfeed.screens.BaseVM;
 
 public class ArticleInfoFragment extends BaseFragment {
     public static String BUNDLE_KEY_INFO = "BUNDLE_KEY_INFO";
+    private ArticleVM viewModel;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     protected BaseVM onCreateViewModel(ViewDataBinding binding) {
-        return new ArticleVM(getNavController(), getAppContext());
+        viewModel = new ArticleVM(getNavController(), getAppContext());
+        NewsFeedApp app = (NewsFeedApp) getAppContext();
+        app.appComponent().inject(viewModel);
+        return viewModel;
     }
 
     @Override
@@ -23,5 +40,18 @@ public class ArticleInfoFragment extends BaseFragment {
     @Override
     public int getLayoutId() {
         return R.layout.article_info_layout;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Add your menu entries here
+        inflater.inflate(R.menu.article_info_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        viewModel.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 }

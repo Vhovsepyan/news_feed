@@ -1,7 +1,7 @@
 package com.example.vahe.newsfeed.model;
 
-import com.example.vahe.newsfeed.model.requestModel.ArticleRequestModel;
-import com.example.vahe.newsfeed.model.requestModel.PageInfoRequestModel;
+import com.example.vahe.newsfeed.model.request.ArticleRequestModel;
+import com.example.vahe.newsfeed.model.request.PageInfoRequestModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,9 @@ public class PageInfo implements BaseObject {
     private void initNews(List<ArticleRequestModel> articleRequestModels){
         articles = new ArrayList<>();
         for (int i = 0; i < articleRequestModels.size(); i++) {
-            articles.add(new Article(articleRequestModels.get(i)));
+            ArticleRequestModel requestModel = articleRequestModels.get(i);
+            Article article = new Article(requestModel);
+            articles.add(article);
         }
     }
 

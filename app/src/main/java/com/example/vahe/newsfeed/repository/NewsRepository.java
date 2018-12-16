@@ -1,9 +1,14 @@
 package com.example.vahe.newsfeed.repository;
 
+import com.example.vahe.newsfeed.listener.OnListReadyListener;
+import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.model.PageInfo;
 
-public interface NewsRepository {
+import java.util.List;
+
+public interface NewsRepository extends BaseRepository<Article>  {
     PageInfo getPageInfoFromApi();
 
-    String getApiUrlData(String apiUrl);
+    void getArticlesFromDB(OnListReadyListener onListReadyListener);
+
 }

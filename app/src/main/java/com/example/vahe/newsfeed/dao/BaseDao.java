@@ -6,8 +6,10 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Update;
 
+import com.example.vahe.newsfeed.model.BaseObject;
+
 @Dao
-public interface DaoBase<T> {
+public interface BaseDao<T> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(T... items);

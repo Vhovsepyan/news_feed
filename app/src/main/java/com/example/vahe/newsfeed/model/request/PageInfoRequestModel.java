@@ -1,4 +1,4 @@
-package com.example.vahe.newsfeed.model.requestModel;
+package com.example.vahe.newsfeed.model.request;
 
 import android.support.annotation.NonNull;
 

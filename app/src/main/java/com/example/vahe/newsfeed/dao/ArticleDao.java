@@ -1,0 +1,20 @@
+package com.example.vahe.newsfeed.dao;
+
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Query;
+
+import com.example.vahe.newsfeed.model.Article;
+import com.example.vahe.newsfeed.model.entity.ArticleTable;
+
+import java.util.List;
+
+@Dao
+public interface ArticleDao extends BaseDao<ArticleTable> {
+
+    @Query("SELECT * FROM article_table WHERE `id` = :articleId")
+    ArticleTable getArticleById(String articleId);
+
+    @Query("SELECT * FROM article_table")
+    List<Article> getPinnedArticles();
+
+}

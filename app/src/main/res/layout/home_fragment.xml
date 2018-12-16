@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.example.vahe.newsfeed.screens.home.PageInfoVM"/>
+            type="com.example.vahe.newsfeed.screens.home.PageInfoVM" />
     </data>
 
     <RelativeLayout
@@ -14,17 +15,18 @@
         android:background="#1f000000">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            adapter="@{viewModel.adapter}"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
-
-        <android.support.v7.widget.RecyclerView
             android:id="@+id/pinned_news_recycler_view"
+            initHorizontalRecyclerView="@{viewModel.pinnedAdapter}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentTop="true" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            initVerticalRecyclerView="@{viewModel.adapter}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/pinned_news_recycler_view" />
 
     </RelativeLayout>
 </layout>

@@ -1,7 +1,8 @@
-package com.example.vahe.newsfeed.model.requestModel;
+package com.example.vahe.newsfeed.model.request;
 
 import android.support.annotation.NonNull;
 
+import com.example.vahe.newsfeed.model.Fields;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -38,6 +39,10 @@ public class ArticleRequestModel {
     @SerializedName("apiUrl")
     @Expose
     private String apiUrl;
+
+    @SerializedName("fields")
+    @Expose
+    private FieldsRequestModel fields;
 
     @SerializedName("isHosted")
     @Expose
@@ -113,6 +118,14 @@ public class ArticleRequestModel {
 
     public void setApiUrl(String apiUrl) {
         this.apiUrl = apiUrl;
+    }
+
+    public FieldsRequestModel getFields() {
+        return fields;
+    }
+
+    public void setFields(FieldsRequestModel fields) {
+        this.fields = fields;
     }
 
     public Boolean getIsHosted() {

@@ -1,18 +1,12 @@
 package com.example.vahe.newsfeed.model;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
-import com.example.vahe.newsfeed.model.requestModel.ArticleRequestModel;
+import com.example.vahe.newsfeed.model.request.ArticleRequestModel;
 
-@Entity
 public class Article implements BaseObject, Parcelable {
 
-    @PrimaryKey
-    @NonNull
     private String id;
 
     private String type;
@@ -27,13 +21,13 @@ public class Article implements BaseObject, Parcelable {
 
     private String webUrl;
 
-    private String apiUrl;
+    private String thumbnail;
 
-    private Boolean isHosted;
+    private String trailText;
 
-    private String pillarId;
+    private String body;
 
-    private String pillarName;
+    private boolean isPinned;
 
     public Article() {
     }
@@ -46,10 +40,9 @@ public class Article implements BaseObject, Parcelable {
         this.webPublicationDate = requestModel.getWebPublicationDate();
         this.webTitle = requestModel.getWebTitle();
         this.webUrl = requestModel.getWebUrl();
-        this.apiUrl = requestModel.getApiUrl();
-        this.isHosted = requestModel.getIsHosted();
-        this.pillarId = requestModel.getPillarId();
-        this.pillarName = requestModel.getPillarName();
+        this.thumbnail = requestModel.getFields().getThumbnail();
+        this.trailText = requestModel.getFields().getTrailText();
+        this.body = requestModel.getFields().getBody();
     }
 
     protected Article(Parcel in) {
@@ -60,11 +53,30 @@ public class Article implements BaseObject, Parcelable {
         webPublicationDate = in.readString();
         webTitle = in.readString();
         webUrl = in.readString();
-        apiUrl = in.readString();
-        byte tmpIsHosted = in.readByte();
-        isHosted = tmpIsHosted == 0 ? null : tmpIsHosted == 1;
-        pillarId = in.readString();
-        pillarName = in.readString();
+        thumbnail = in.readString();
+        trailText = in.readString();
+        body = in.readString();
+        isPinned = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(type);
+        dest.writeString(sectionId);
+        dest.writeString(sectionName);
+        dest.writeString(webPublicationDate);
+        dest.writeString(webTitle);
+        dest.writeString(webUrl);
+        dest.writeString(thumbnail);
+        dest.writeString(trailText);
+        dest.writeString(body);
+        dest.writeByte((byte) (isPinned ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Article> CREATOR = new Creator<Article>() {
@@ -135,55 +147,40 @@ public class Article implements BaseObject, Parcelable {
         this.webUrl = webUrl;
     }
 
-    public String getApiUrl() {
-        return apiUrl;
+    public String getThumbnail() {
+        return thumbnail;
     }
 
-    public void setApiUrl(String apiUrl) {
-        this.apiUrl = apiUrl;
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
-    public Boolean getHosted() {
-        return isHosted;
+    public String getTrailText() {
+        return trailText;
     }
 
-    public void setHosted(Boolean hosted) {
-        isHosted = hosted;
+    public void setTrailText(String trailText) {
+        this.trailText = trailText;
     }
 
-    public String getPillarId() {
-        return pillarId;
+    public String getBody() {
+        return body;
     }
 
-    public void setPillarId(String pillarId) {
-        this.pillarId = pillarId;
+    public void setBody(String body) {
+        this.body = body;
     }
 
-    public String getPillarName() {
-        return pillarName;
+    public boolean isPinned() {
+        return isPinned;
     }
 
-    public void setPillarName(String pillarName) {
-        this.pillarName = pillarName;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setPinned(boolean pinned) {
+        isPinned = pinned;
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(id);
-        parcel.writeString(type);
-        parcel.writeString(sectionId);
-        parcel.writeString(sectionName);
-        parcel.writeString(webPublicationDate);
-        parcel.writeString(webTitle);
-        parcel.writeString(webUrl);
-        parcel.writeString(apiUrl);
-        parcel.writeByte((byte) (isHosted == null ? 0 : isHosted ? 1 : 2));
-        parcel.writeString(pillarId);
-        parcel.writeString(pillarName);
+    public int getObjectType() {
+        return OBJECT_TYPE_ARTICLE;
     }
 }

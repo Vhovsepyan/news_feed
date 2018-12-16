@@ -9,11 +9,15 @@ import java.util.concurrent.Executors;
 
 
 class ExecutorProviderImpl implements ExecutorProvider {
-    private final ExecutorService executorService;
+    private final ExecutorService background;
+    private final ExecutorService dbCommunication;
+    private final ExecutorService serverCommunication;
     private final Executor mainExecutor;
 
     ExecutorProviderImpl() {
-        this.executorService = Executors.newSingleThreadScheduledExecutor();
+        this.background = Executors.newSingleThreadScheduledExecutor();
+        this.dbCommunication = Executors.newSingleThreadScheduledExecutor();
+        this.serverCommunication = Executors.newSingleThreadScheduledExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
         this.mainExecutor = handler::post;
     }
@@ -24,9 +28,11 @@ class ExecutorProviderImpl implements ExecutorProvider {
             case ExecutorType.MAIN:
                 return mainExecutor;
             case ExecutorType.BACKGROUND:
-                return executorService;//TODO
-            case ExecutorType.MAIN_BACKGROUND:
-                return executorService;//TODO
+                return background;
+            case ExecutorType.DB_COMMUNICATION:
+                return dbCommunication;
+            case ExecutorType.SERVER_COMMUNICATION:
+                return serverCommunication;
             default:
                 return null;
         }

@@ -10,7 +10,7 @@
 
         <variable
             name="holder"
-            type="com.example.vahe.newsfeed.screens.home.NewsItemViewHolder" />
+            type="com.example.vahe.newsfeed.screens.home.ArticleVerticalViewHolder" />
 
     </data>
 
@@ -24,7 +24,7 @@
             android:layout_width="@dimen/list_item_image_with"
             android:layout_height="@dimen/list_item_image_height"
             android:layout_margin="@dimen/padding"
-            src="@{item.webUrl}"
+            src="@{item.thumbnail}"
             tools:src="@drawable/ic_menu_slideshow"/>
 
         <TextView

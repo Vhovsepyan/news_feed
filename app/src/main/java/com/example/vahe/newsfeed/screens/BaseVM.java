@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.vahe.newsfeed.providers.ExecutorService;
@@ -13,7 +14,7 @@ import java.util.concurrent.Executor;
 
 import androidx.navigation.NavController;
 
-public class BaseVM<T extends BaseFragment> extends BaseObservable {
+public abstract class BaseVM<T extends BaseFragment> extends BaseObservable {
     private NavController navController;
     private Context appContext;
 
@@ -21,6 +22,8 @@ public class BaseVM<T extends BaseFragment> extends BaseObservable {
         this.navController = navController;
         this.appContext = appContext;
     }
+
+    protected abstract void init();
 
     protected void onCreateView(){}
 
@@ -35,6 +38,8 @@ public class BaseVM<T extends BaseFragment> extends BaseObservable {
     protected void onStop(){}
 
     protected void onDestroyView(){}
+
+    protected abstract boolean onOptionsItemSelected(MenuItem item);
 
     public NavController getNavController() {
         return navController;

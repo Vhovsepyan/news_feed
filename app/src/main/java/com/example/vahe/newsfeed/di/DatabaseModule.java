@@ -4,7 +4,9 @@ import android.arch.persistence.room.Room;
 
 import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.dao.AppDatabase;
+import com.example.vahe.newsfeed.dao.ArticleDao;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -13,7 +15,7 @@ import dagger.Provides;
 @Module
 public class DatabaseModule {
 
-    private static final String DB_NAME = "GlobeDatabase.db";
+    private static final String DB_NAME = "NewsFeed.db";
 
     private AppDatabase demoDatabase;
 
@@ -23,9 +25,15 @@ public class DatabaseModule {
 
     @Provides
     @Singleton
+    @Named("database")
     AppDatabase appDatabaseProvider() {
         return demoDatabase;
     }
 
+    @Singleton
+    @Provides
+    public ArticleDao provideArticleDao(AppDatabase myDatabase) {
+        return myDatabase.getArticleDao();
+    }
 
 }

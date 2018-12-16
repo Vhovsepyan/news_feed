@@ -1,4 +1,4 @@
-package com.example.vahe.newsfeed.screens;
+package com.example.vahe.newsfeed.listener;
 
 import com.example.vahe.newsfeed.model.BaseObject;
 

@@ -3,16 +3,11 @@ package com.example.vahe.newsfeed.dao;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-import com.example.vahe.newsfeed.model.Article;
+import com.example.vahe.newsfeed.model.entity.ArticleTable;
 
-@Database(entities = {Article.class}, exportSchema = false, version = 1)
+@Database(entities = {ArticleTable.class}, exportSchema = false, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
-/*
-    public abstract DaoGroup getGroupDao();
 
-    public abstract DaoUser getUserDao();
+    public abstract ArticleDao getArticleDao();
 
-    public abstract DaoGroupUserRelation getGroupUserRelationDao();
-
-    public abstract DaoMessage getMessageDao();*/
 }

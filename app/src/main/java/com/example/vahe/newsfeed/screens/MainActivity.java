@@ -59,13 +59,6 @@ public class MainActivity extends AppCompatActivity implements ActivityView {
         }
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
         return navController.navigateUp();
