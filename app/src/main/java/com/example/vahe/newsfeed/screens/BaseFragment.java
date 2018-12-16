@@ -76,11 +76,11 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
         super.onDestroyView();
     }
 
-    protected Context getAppContext(){
+    protected Context getAppContext() {
         return appContext;
     }
 
-    protected NavController getNavController(){
+    protected NavController getNavController() {
         return navController;
     }
 

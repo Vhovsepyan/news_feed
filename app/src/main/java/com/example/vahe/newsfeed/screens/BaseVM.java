@@ -9,8 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.vahe.newsfeed.providers.ExecutorService;
-import com.example.vahe.newsfeed.providers.ExecutorType;
+import com.example.vahe.newsfeed.executors.ExecutorService;
+import com.example.vahe.newsfeed.executors.ExecutorType;
 
 import java.util.concurrent.Executor;
 

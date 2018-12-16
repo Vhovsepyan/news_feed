@@ -1,4 +1,4 @@
-package com.example.vahe.newsfeed.providers;
+package com.example.vahe.newsfeed.executors;
 
 import java.util.concurrent.Executor;
 

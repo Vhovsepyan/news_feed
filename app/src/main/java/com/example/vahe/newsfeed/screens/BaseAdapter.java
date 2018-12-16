@@ -5,9 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.example.vahe.newsfeed.model.BaseObject;
 import com.example.vahe.newsfeed.listener.BaseClickListener;
-import com.example.vahe.newsfeed.screens.home.ViewHolderProvider;
+import com.example.vahe.newsfeed.model.BaseObject;
+import com.example.vahe.newsfeed.screens.viewholders.BaseRecyclerViewHolder;
+import com.example.vahe.newsfeed.screens.viewholders.ViewHolderProvider;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class BaseAdapter<T extends BaseObject> extends RecyclerView.Adapter<Base
     @NonNull
     @Override
     public BaseRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        return viewHolderProvider.provideViewHolder(inflater, viewGroup, baseClickListener, items.get(i) );
+        return viewHolderProvider.provideViewHolder(inflater, viewGroup, baseClickListener, items.get(i));
     }
 
     @Override

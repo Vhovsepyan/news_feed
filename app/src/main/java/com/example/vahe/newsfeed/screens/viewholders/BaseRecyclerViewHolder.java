@@ -1,4 +1,4 @@
-package com.example.vahe.newsfeed.screens;
+package com.example.vahe.newsfeed.screens.viewholders;
 
 import android.annotation.SuppressLint;
 import android.databinding.ViewDataBinding;

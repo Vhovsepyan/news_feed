@@ -1,4 +1,4 @@
-package com.example.vahe.newsfeed.screens.home;
+package com.example.vahe.newsfeed.screens.viewholders;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -8,7 +8,6 @@ import com.example.vahe.newsfeed.BR;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.model.BaseObject;
 import com.example.vahe.newsfeed.listener.BaseClickListener;
-import com.example.vahe.newsfeed.screens.BaseRecyclerViewHolder;
 
 public class ArticleHorizontalViewHolder extends BaseRecyclerViewHolder {
 

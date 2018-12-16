@@ -42,7 +42,7 @@ public class PageInfo implements BaseObject {
 
     }
 
-    private void initNews(List<ArticleRequestModel> articleRequestModels){
+    private void initNews(List<ArticleRequestModel> articleRequestModels) {
         articles = new ArrayList<>();
         for (int i = 0; i < articleRequestModels.size(); i++) {
             ArticleRequestModel requestModel = articleRequestModels.get(i);

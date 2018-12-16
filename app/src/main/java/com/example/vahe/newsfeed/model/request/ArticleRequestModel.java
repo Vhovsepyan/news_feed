@@ -2,7 +2,6 @@ package com.example.vahe.newsfeed.model.request;
 
 import android.support.annotation.NonNull;
 
-import com.example.vahe.newsfeed.model.Fields;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

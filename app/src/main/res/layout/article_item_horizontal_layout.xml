@@ -10,7 +10,7 @@
 
         <variable
             name="holder"
-            type="com.example.vahe.newsfeed.screens.home.ArticleHorizontalViewHolder" />
+            type="com.example.vahe.newsfeed.screens.viewholders.ArticleHorizontalViewHolder" />
 
     </data>
 

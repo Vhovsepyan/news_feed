@@ -8,8 +8,8 @@ import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.model.PageInfo;
 import com.example.vahe.newsfeed.model.entity.ArticleTable;
 import com.example.vahe.newsfeed.model.request.PageInfoRequestModel;
-import com.example.vahe.newsfeed.providers.ExecutorService;
-import com.example.vahe.newsfeed.providers.ExecutorType;
+import com.example.vahe.newsfeed.executors.ExecutorService;
+import com.example.vahe.newsfeed.executors.ExecutorType;
 import com.example.vahe.newsfeed.utils.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,7 +35,7 @@ public class NewsRepositoryImpl implements NewsRepository {
     @Override
     public void getPageInfoFromApi(String url, OnListReadyListener onListReadyListener) {
         getExecutor(ExecutorType.SERVER_COMMUNICATION).execute(() -> {
-            String data = requestHelper.getNews(url);
+            String data = requestHelper.getArticles(url);
             PageInfo pageInfo = null;
             try {
 

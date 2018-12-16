@@ -12,7 +12,7 @@ public class RequestHelperImpl implements RequestHelper {
     private OkHttpClient client = new OkHttpClient();
 
     @Override
-    public String getNews(String url) {
+    public String getArticles(String url) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
