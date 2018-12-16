@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="articleItem"
+            type="com.example.vahe.newsfeed.model.Article"/>
+
+        <variable
+            name="viewModel"
+            type="com.example.vahe.newsfeed.screens.info.ArticleVM"/>
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/padding"
+        android:background="#1f000000">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{articleItem.webTitle}"/>
+
+    </RelativeLayout>
+
+
+</layout>

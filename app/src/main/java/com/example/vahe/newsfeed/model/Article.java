@@ -2,12 +2,14 @@ package com.example.vahe.newsfeed.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import com.example.vahe.newsfeed.model.requestModel.NewsItemRequestModel;
+import com.example.vahe.newsfeed.model.requestModel.ArticleRequestModel;
 
 @Entity
-public class NewsItem implements BaseObject {
+public class Article implements BaseObject, Parcelable {
 
     @PrimaryKey
     @NonNull
@@ -33,10 +35,10 @@ public class NewsItem implements BaseObject {
 
     private String pillarName;
 
-    public NewsItem() {
+    public Article() {
     }
 
-    public NewsItem(NewsItemRequestModel requestModel) {
+    public Article(ArticleRequestModel requestModel) {
         this.id = requestModel.getId();
         this.type = requestModel.getType();
         this.sectionId = requestModel.getSectionId();
@@ -49,6 +51,33 @@ public class NewsItem implements BaseObject {
         this.pillarId = requestModel.getPillarId();
         this.pillarName = requestModel.getPillarName();
     }
+
+    protected Article(Parcel in) {
+        id = in.readString();
+        type = in.readString();
+        sectionId = in.readString();
+        sectionName = in.readString();
+        webPublicationDate = in.readString();
+        webTitle = in.readString();
+        webUrl = in.readString();
+        apiUrl = in.readString();
+        byte tmpIsHosted = in.readByte();
+        isHosted = tmpIsHosted == 0 ? null : tmpIsHosted == 1;
+        pillarId = in.readString();
+        pillarName = in.readString();
+    }
+
+    public static final Creator<Article> CREATOR = new Creator<Article>() {
+        @Override
+        public Article createFromParcel(Parcel in) {
+            return new Article(in);
+        }
+
+        @Override
+        public Article[] newArray(int size) {
+            return new Article[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -136,5 +165,25 @@ public class NewsItem implements BaseObject {
 
     public void setPillarName(String pillarName) {
         this.pillarName = pillarName;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(type);
+        parcel.writeString(sectionId);
+        parcel.writeString(sectionName);
+        parcel.writeString(webPublicationDate);
+        parcel.writeString(webTitle);
+        parcel.writeString(webUrl);
+        parcel.writeString(apiUrl);
+        parcel.writeByte((byte) (isHosted == null ? 0 : isHosted ? 1 : 2));
+        parcel.writeString(pillarId);
+        parcel.writeString(pillarName);
     }
 }

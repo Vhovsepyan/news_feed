@@ -55,4 +55,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-android-processor:${rootProject.ext.dagger_version}"
     annotationProcessor "com.google.dagger:dagger-compiler:${rootProject.ext.dagger_version}"
 
+    implementation "com.github.bumptech.glide:glide:${rootProject.ext.glide_version}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${rootProject.ext.glide_version}"
+
 }

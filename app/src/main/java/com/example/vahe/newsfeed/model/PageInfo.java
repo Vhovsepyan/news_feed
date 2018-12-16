@@ -1,6 +1,6 @@
 package com.example.vahe.newsfeed.model;
 
-import com.example.vahe.newsfeed.model.requestModel.NewsItemRequestModel;
+import com.example.vahe.newsfeed.model.requestModel.ArticleRequestModel;
 import com.example.vahe.newsfeed.model.requestModel.PageInfoRequestModel;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class PageInfo implements BaseObject {
 
     private String orderBy;
 
-    private List<NewsItem> newsItems = null;
+    private List<Article> articles = null;
 
     public PageInfo() {
     }
@@ -38,14 +38,14 @@ public class PageInfo implements BaseObject {
         this.currentPage = pageInfoRequestModel.getCurrentPage();
         this.pages = pageInfoRequestModel.getPages();
         this.orderBy = pageInfoRequestModel.getOrderBy();
-        initNews(pageInfoRequestModel.getNewsItemRequestModels());
+        initNews(pageInfoRequestModel.getArticleRequestModels());
 
     }
 
-    private void initNews(List<NewsItemRequestModel> newsItemRequestModels){
-        newsItems = new ArrayList<>();
-        for (int i = 0; i < newsItemRequestModels.size(); i++) {
-            newsItems.add(new NewsItem(newsItemRequestModels.get(i)));
+    private void initNews(List<ArticleRequestModel> articleRequestModels){
+        articles = new ArrayList<>();
+        for (int i = 0; i < articleRequestModels.size(); i++) {
+            articles.add(new Article(articleRequestModels.get(i)));
         }
     }
 
@@ -113,11 +113,11 @@ public class PageInfo implements BaseObject {
         this.orderBy = orderBy;
     }
 
-    public List<NewsItem> getNewsItems() {
-        return newsItems;
+    public List<Article> getArticles() {
+        return articles;
     }
 
-    public void setNewsItems(List<NewsItem> newsItems) {
-        this.newsItems = newsItems;
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 }

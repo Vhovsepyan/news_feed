@@ -8,4 +8,6 @@ public interface Constants {
 
 
     String RESPONSE_KEY = "response";
+
+    String IMG_KEY = "#img-1";
 }

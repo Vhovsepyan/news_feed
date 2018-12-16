@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.example.vahe.newsfeed.model.NewsItem" />
+            type="com.example.vahe.newsfeed.model.Article" />
 
         <variable
             name="holder"
@@ -14,15 +14,38 @@
 
     </data>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:orientation="vertical">
+        android:clipToPadding="false">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/list_item_image_with"
+            android:layout_height="@dimen/list_item_image_height"
+            android:layout_margin="@dimen/padding"
+            src="@{item.webUrl}"
+            tools:src="@drawable/ic_menu_slideshow"/>
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{item.sectionName}"/>
-    </LinearLayout>
+            android:layout_marginTop="@dimen/padding"
+            android:layout_toEndOf="@id/avatar"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{item.webTitle}"
+            tools:text="title" />
+
+        <TextView
+            android:id="@+id/section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_toEndOf="@id/avatar"
+            android:singleLine="true"
+            android:text="@{item.sectionName}"
+            tools:text="section" />
+    </RelativeLayout>
 </layout>

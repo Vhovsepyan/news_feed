@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#1f000000">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.vahe.newsfeed.screens.home.PageInfoVM"/>
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="#1f000000">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/pinned_news_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            adapter="@{viewModel.adapter}"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ankap"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/pinned_news_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

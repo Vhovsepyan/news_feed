@@ -1,5 +1,6 @@
 package com.example.vahe.newsfeed.screens;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
@@ -10,14 +11,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.navigation.NavController;
+
 public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     private B binding;
     private BaseVM viewModel;
+    private NavController navController;
+    private Context appContext;
+    private Bundle bundle;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        appContext = context.getApplicationContext();
+        ActivityView activityView = (ActivityView) context;
+        navController = activityView.getNavController();
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
+        bundle = getArguments();
         return binding.getRoot();
     }
 
@@ -26,9 +41,9 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = onCreateViewModel(binding);
+        viewModel.onViewCreated(view, bundle, binding);
         binding.setVariable(getVariable(), viewModel);
         binding.executePendingBindings();
-        viewModel.onViewCreated();
     }
 
     @Override
@@ -59,6 +74,14 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     public void onDestroyView() {
         viewModel.onDestroyView();
         super.onDestroyView();
+    }
+
+    protected Context getAppContext(){
+        return appContext;
+    }
+
+    protected NavController getNavController(){
+        return navController;
     }
 
     protected abstract BaseVM onCreateViewModel(B binding);

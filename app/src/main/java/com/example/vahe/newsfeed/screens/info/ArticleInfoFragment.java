@@ -1,6 +1,5 @@
-package com.example.vahe.newsfeed.screens.home;
+package com.example.vahe.newsfeed.screens.info;
 
-import android.content.Context;
 import android.databinding.ViewDataBinding;
 
 import com.example.vahe.newsfeed.BR;
@@ -8,16 +7,12 @@ import com.example.vahe.newsfeed.R;
 import com.example.vahe.newsfeed.screens.BaseFragment;
 import com.example.vahe.newsfeed.screens.BaseVM;
 
-public class HomeFragment extends BaseFragment {
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
+public class ArticleInfoFragment extends BaseFragment {
+    public static String BUNDLE_KEY_INFO = "BUNDLE_KEY_INFO";
 
     @Override
     protected BaseVM onCreateViewModel(ViewDataBinding binding) {
-        return new PageInfoVM(getNavController(), getAppContext());
+        return new ArticleVM(getNavController(), getAppContext());
     }
 
     @Override
@@ -27,6 +22,6 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public int getLayoutId() {
-        return R.layout.home_fragment;
+        return R.layout.article_info_layout;
     }
 }

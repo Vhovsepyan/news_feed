@@ -38,4 +38,9 @@ public class NewsRepositoryImpl implements NewsRepository {
         }
         return pageInfo;
     }
+
+    @Override
+    public String getApiUrlData(String apiUrl) {
+        return requestHelper.getNews(apiUrl);
+    }
 }

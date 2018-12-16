@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class NewsItemRequestModel {
+public class ArticleRequestModel {
 
     @SerializedName("id")
     @Expose
@@ -142,7 +142,7 @@ public class NewsItemRequestModel {
     @NonNull
     @Override
     public String toString() {
-        return "NewsItemRequestModel{" +
+        return "ArticleRequestModel{" +
                 "id='" + id + '\'' +
                 ", type='" + type + '\'' +
                 ", sectionId='" + sectionId + '\'' +

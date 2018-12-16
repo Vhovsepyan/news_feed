@@ -4,4 +4,6 @@ import com.example.vahe.newsfeed.model.PageInfo;
 
 public interface NewsRepository {
     PageInfo getPageInfoFromApi();
+
+    String getApiUrlData(String apiUrl);
 }
