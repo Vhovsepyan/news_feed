@@ -21,22 +21,13 @@
 
         <ImageView
             android:id="@+id/avatar"
-            src="@{item.thumbnail}"
+            srcCircle="@{item.thumbnail}"
             android:layout_width="@dimen/list_item_image_with"
             android:layout_height="@dimen/list_item_image_height"
-            android:layout_marginStart="@dimen/padding"
-            android:layout_marginTop="@dimen/padding"
+            android:layout_marginStart="@dimen/half_padding"
+            android:layout_marginTop="@dimen/half_padding"
+            android:layout_marginEnd="@dimen/half_padding"
             tools:src="@drawable/ic_menu_slideshow" />
 
-        <TextView
-            android:id="@+id/section"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/avatar"
-            android:layout_alignStart="@id/avatar"
-            android:layout_centerHorizontal="true"
-            android:singleLine="true"
-            android:text="@{item.sectionName}"
-            tools:text="section" />
     </RelativeLayout>
 </layout>

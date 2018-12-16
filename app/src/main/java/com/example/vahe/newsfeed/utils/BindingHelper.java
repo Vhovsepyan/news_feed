@@ -1,7 +1,10 @@
 package com.example.vahe.newsfeed.utils;
 
 import android.databinding.BindingAdapter;
+import android.graphics.Bitmap;
 import android.os.Build;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 public class BindingHelper {
 
@@ -40,6 +44,22 @@ public class BindingHelper {
                     .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL))
                     .into(view);
         }
+    }
+
+    @BindingAdapter({"srcCircle"})
+    public static void loadImageCircle(ImageView view, String url) {
+        Glide.with(view.getContext())
+                .asBitmap()
+                .apply(new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL))
+                .load(url)
+                .into(new BitmapImageViewTarget(view) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable = RoundedBitmapDrawableFactory.create(view.getContext().getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        view.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
     }
 
     @BindingAdapter({"setHTMLText"})

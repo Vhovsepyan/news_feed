@@ -6,7 +6,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="action_pin">Pin</string>
-    <string name="action_new_group">New Group</string>
+    <string name="pin_text">Pin</string>
+    <string name="pinned_text">Pinned</string>
     <string name="done">Done</string>
 </resources>

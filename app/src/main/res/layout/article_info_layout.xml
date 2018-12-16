@@ -24,18 +24,21 @@
 
             <TextView
                 android:id="@+id/headline_text"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
+                android:layout_centerHorizontal="true"
                 android:paddingStart="@dimen/padding"
                 android:paddingTop="@dimen/padding"
                 android:paddingEnd="@dimen/padding"
                 android:text="@{articleItem.webTitle}"
+                android:textColor="@color/color_black"
                 android:textSize="@dimen/big_text_size" />
 
 
             <TextView
                 android:id="@+id/trail_text"
+                setHTMLText="@{articleItem.trailText}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/headline_text"
@@ -43,7 +46,6 @@
                 android:paddingStart="@dimen/padding"
                 android:paddingTop="@dimen/padding"
                 android:paddingEnd="@dimen/padding"
-                android:text="@{articleItem.trailText}"
                 android:textSize="@dimen/middle_text_size"
                 android:textStyle="italic" />
 
