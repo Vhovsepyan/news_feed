@@ -37,7 +37,6 @@ public class ArticleVM extends BaseVM {
             Article article = bundle.getParcelable(ArticleInfoFragment.BUNDLE_KEY_INFO);
             setArticle(article);
             binding.setVariable(BR.articleItem, this.article);
-            AppLog.i(" aaaaa " + article);
         }
     }
 

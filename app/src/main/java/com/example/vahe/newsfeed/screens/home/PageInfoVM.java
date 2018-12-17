@@ -5,19 +5,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 
 import com.example.vahe.newsfeed.R;
+import com.example.vahe.newsfeed.executors.ExecutorType;
 import com.example.vahe.newsfeed.listener.BaseClickListener;
 import com.example.vahe.newsfeed.model.Article;
-import com.example.vahe.newsfeed.executors.ExecutorType;
 import com.example.vahe.newsfeed.repository.NewsRepository;
 import com.example.vahe.newsfeed.screens.BaseAdapter;
 import com.example.vahe.newsfeed.screens.BaseVM;
 import com.example.vahe.newsfeed.screens.info.ArticleInfoFragment;
 import com.example.vahe.newsfeed.utils.ArticleUrlBuilder;
+import com.example.vahe.newsfeed.utils.Constants;
+import com.example.vahe.newsfeed.utils.SharedPrefs;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.inject.Inject;
@@ -29,7 +29,6 @@ public class PageInfoVM extends BaseVM {
     private List<Article> pinnedArticles = new ArrayList<>();
     public BaseAdapter adapter;
     public BaseAdapter pinnedAdapter;
-    private static Timer mTimer1;
 
     @Inject
     public NewsRepository newsRepository;
@@ -45,9 +44,6 @@ public class PageInfoVM extends BaseVM {
     protected void init() {
         getPinnedArticles();
         getNewsFromAPI();
-        if (mTimer1 == null) {
-            checkForNewArticles();
-        }
     }
 
     private void getNewsFromAPI() {
@@ -56,6 +52,8 @@ public class PageInfoVM extends BaseVM {
             if (list != null) {
                 articles.addAll(list);
                 getExecutor(ExecutorType.MAIN).execute(() -> {
+                    Article lastArticle = articles.get(0);
+                    SharedPrefs.getInstance().putString(Constants.LAST_PUBLICATION_DATE, lastArticle.getWebPublicationDate());
                     adapter.setItems(articles);
                 });
             }
@@ -85,30 +83,6 @@ public class PageInfoVM extends BaseVM {
     @Override
     protected void onDestroyView() {
         super.onDestroyView();
-    }
-
-    private void checkForNewArticles() {
-        mTimer1 = new Timer();
-        TimerTask mTt1 = new TimerTask() {
-            public void run() {
-                String publicationDate = articles.get(0).getWebPublicationDate();
-                String url = new ArticleUrlBuilder()
-                        .addFromDate(publicationDate)
-                        .build();
-                newsRepository.getPageInfoFromApi(url, list -> {
-                    List<Article> tempArticles = new ArrayList<>(list);
-                    if (tempArticles.size() > 1) {
-                        tempArticles.addAll(articles);
-                        articles.clear();
-                        articles.addAll(tempArticles);
-                        getExecutor(ExecutorType.MAIN).execute(() -> {
-                            adapter.notifyDataSetChanged();
-                        });
-                    }
-                });
-            }
-        };
-        mTimer1.schedule(mTt1, 30000, 30000);
     }
 
 }

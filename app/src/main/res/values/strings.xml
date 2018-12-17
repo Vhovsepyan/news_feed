@@ -9,4 +9,5 @@
     <string name="pin_text">Pin</string>
     <string name="pinned_text">Pinned</string>
     <string name="done">Done</string>
+    <string name="channel_description">You have new articles</string>
 </resources>

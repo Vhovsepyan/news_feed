@@ -2,6 +2,7 @@ package com.example.vahe.newsfeed.di;
 
 import com.example.vahe.newsfeed.screens.home.PageInfoVM;
 import com.example.vahe.newsfeed.screens.info.ArticleVM;
+import com.example.vahe.newsfeed.service.MyJobService;
 
 import javax.inject.Singleton;
 
@@ -13,4 +14,6 @@ public interface AppComponent {
     void inject(ArticleVM articleVM);
 
     void inject(PageInfoVM pageInfoVM);
+
+    void inject(MyJobService jobService);
 }
