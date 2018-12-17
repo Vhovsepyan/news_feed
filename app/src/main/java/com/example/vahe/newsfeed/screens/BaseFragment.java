@@ -17,15 +17,13 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     private B binding;
     private BaseVM viewModel;
     private NavController navController;
-    private Context appContext;
+    private Context context;
     private Bundle bundle;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        appContext = context.getApplicationContext();
-        ActivityView activityView = (ActivityView) context;
-        navController = activityView.getNavController();
+        this.context = context;
     }
 
     @Nullable
@@ -33,6 +31,8 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         bundle = getArguments();
+        ActivityView activityView = (ActivityView) context;
+        navController = activityView.getNavController();
         return binding.getRoot();
     }
 
@@ -77,7 +77,7 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     }
 
     protected Context getAppContext() {
-        return appContext;
+        return context.getApplicationContext();
     }
 
     protected NavController getNavController() {

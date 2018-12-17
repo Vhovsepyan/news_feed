@@ -16,4 +16,6 @@ public interface ArticleRepository extends BaseRepository<Article> {
 
     void getArticlesFromDB(OnListReadyListener onListReadyListener);
 
+    void getArticleById(String id, OnObjectReadyListener<Article> onReadyListener);
+
 }

@@ -32,6 +32,7 @@ public class ArticelStaggeredViewHolder extends BaseRecyclerViewHolder {
         itemView.setOnClickListener(view -> baseClickListener.onItemClickListener(article));
         ImageView imageView = itemView.findViewById(R.id.avatar);
         imageView.getLayoutParams().height = getRandomHeight();
+        imageView.getLayoutParams().width = getRandomWidth();
         getBinding().executePendingBindings();
     }
 
@@ -40,11 +41,17 @@ public class ArticelStaggeredViewHolder extends BaseRecyclerViewHolder {
         return binding;
     }
 
-    public int getRandomHeight() {
+    private int getRandomHeight() {
         Random r = new Random();
         int low = 200;
         int high = 400;
-        int result = r.nextInt(high - low) + low;
-        return result;
+        return r.nextInt(high - low) + low;
+    }
+
+    private int getRandomWidth() {
+        Random r = new Random();
+        int low = 400;
+        int high = 500;
+        return r.nextInt(high - low) + low;
     }
 }

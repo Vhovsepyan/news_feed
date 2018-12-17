@@ -52,6 +52,9 @@ public class MyJobService extends JobService {
             lastUpdateDate = SharedPrefs.getInstance()
                     .getString(Constants.LAST_PUBLICATION_DATE, "");
             String url = new ArticleUrlBuilder()
+                    .addUseDate(Constants.USE_DATE_PUBLISHED)
+                    .addOrderBy(Constants.ORDER_BY_NEWEST)
+                    .addOrderDate(Constants.ORDER_DATE_PUBLISHED)
                     .addFromDate(lastUpdateDate)
                     .build();
             repository.getArticlesFromApi(url, listReadyListener);

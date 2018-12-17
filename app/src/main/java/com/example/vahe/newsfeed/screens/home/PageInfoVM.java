@@ -87,6 +87,8 @@ public class PageInfoVM extends BaseVM {
                     pageInfo = new PageInfo(info);
                     articles.addAll(pageInfo.getArticles());
                     getExecutor(ExecutorType.MAIN).execute(()->{
+                        Article lastArticle = articles.get(0);
+                        SharedPrefs.getInstance().putString(Constants.LAST_PUBLICATION_DATE, lastArticle.getWebPublicationDate());
                         adapter.setItems(articles);
                     });
 

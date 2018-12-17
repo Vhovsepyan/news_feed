@@ -106,6 +106,15 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
+    public void getArticleById(String id, OnObjectReadyListener<Article> onReadyListener) {
+        ArticleTable articleTable = articleDao.getArticleById(id);
+        if (articleTable != null){
+            Article article = new Article(articleTable);
+            onReadyListener.onReady(article);
+        }
+    }
+
+    @Override
     public void insert(Article items) {
         getExecutor(ExecutorType.DB_COMMUNICATION).execute(() -> {
             articleDao.insert(new ArticleTable(items));
