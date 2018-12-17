@@ -11,5 +11,7 @@
     <string name="list_text">List</string>
     <string name="stagger_text">Stagger</string>
     <string name="done">Done</string>
+    <string name="home_page_title">Home</string>
+    <string name="article_detail_title">Article detail</string>
     <string name="channel_description">You have new articles</string>
 </resources>

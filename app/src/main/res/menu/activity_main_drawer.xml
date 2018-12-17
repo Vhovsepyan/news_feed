@@ -27,11 +27,11 @@
             <item
                 android:id="@+id/contactsFragment"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Contacts" />
+                android:title="Item 1" />
             <item
                 android:id="@+id/conversationHistoryFragment"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Conv. History" />
+                android:title="Item 2" />
         </menu>
     </item>
 

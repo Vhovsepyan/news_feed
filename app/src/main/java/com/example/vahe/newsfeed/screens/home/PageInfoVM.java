@@ -44,6 +44,7 @@ import androidx.navigation.NavController;
 public class PageInfoVM extends BaseVM {
     public ObservableBoolean isListViewMode = new ObservableBoolean(true);
     public ObservableBoolean isPinnedVisible = new ObservableBoolean(false);
+    public ObservableBoolean isProgessBarVisible = new ObservableBoolean(true);
     public ObservableField<BaseAdapter> baseAdapterObservableField = new ObservableField<>();
     private CopyOnWriteArrayList<Article> articles = new CopyOnWriteArrayList<>();
     private List<Article> pinnedArticles = new ArrayList<>();
@@ -69,6 +70,7 @@ public class PageInfoVM extends BaseVM {
     protected void init() {
         getPinnedArticles();
         String savedData = getPreferences().getString(Constants.ARTICLES_JSON_DATA_KEY, "");
+        isProgessBarVisible.set(true);
         if (TextUtils.isEmpty(savedData)){
             getNewsFromAPI();
         } else {
@@ -91,6 +93,7 @@ public class PageInfoVM extends BaseVM {
                         Article lastArticle = articles.get(0);
                         SharedPrefs.getInstance().putString(Constants.LAST_PUBLICATION_DATE, lastArticle.getWebPublicationDate());
                         adapter.setItems(articles);
+                        isProgessBarVisible.set(false);
                     });
 
                 }
@@ -116,6 +119,7 @@ public class PageInfoVM extends BaseVM {
                     Article lastArticle = articles.get(0);
                     SharedPrefs.getInstance().putString(Constants.LAST_PUBLICATION_DATE, lastArticle.getWebPublicationDate());
                     adapter.setItems(articles);
+                    isProgessBarVisible.set(false);
                 });
             }
         });

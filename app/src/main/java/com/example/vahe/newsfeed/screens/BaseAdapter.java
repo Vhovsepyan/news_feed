@@ -51,8 +51,4 @@ public class BaseAdapter<T extends BaseObject> extends RecyclerView.Adapter<Base
         return items == null ? 0 : items.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return viewMode;
-    }
 }
