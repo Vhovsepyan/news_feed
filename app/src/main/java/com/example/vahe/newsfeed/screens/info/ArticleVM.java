@@ -12,9 +12,8 @@ import android.view.View;
 import com.example.vahe.newsfeed.BR;
 import com.example.vahe.newsfeed.R;
 import com.example.vahe.newsfeed.model.Article;
-import com.example.vahe.newsfeed.repository.NewsRepository;
+import com.example.vahe.newsfeed.repository.ArticleRepository;
 import com.example.vahe.newsfeed.screens.BaseVM;
-import com.example.vahe.newsfeed.utils.AppLog;
 
 import javax.inject.Inject;
 
@@ -23,7 +22,7 @@ import androidx.navigation.NavController;
 public class ArticleVM extends BaseVM {
 
     @Inject
-    public NewsRepository newsRepository;
+    public ArticleRepository articleRepository;
     public Article article;
 
     public ArticleVM(NavController navController, Context appContext) {
@@ -84,11 +83,11 @@ public class ArticleVM extends BaseVM {
     private void handelPinAction(MenuItem menuItem, boolean isPinned) {
         if (isPinned) {
             article.setPinned(false);
-            newsRepository.delete(article);
+            articleRepository.delete(article);
             menuItem.setTitle(getString(R.string.pin_text));
         } else {
             article.setPinned(true);
-            newsRepository.insert(article);
+            articleRepository.insert(article);
             menuItem.setTitle(getString(R.string.pinned_text));
         }
     }

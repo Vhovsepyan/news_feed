@@ -7,8 +7,9 @@ import android.view.LayoutInflater;
 import com.example.vahe.newsfeed.R;
 import com.example.vahe.newsfeed.executors.ExecutorType;
 import com.example.vahe.newsfeed.listener.BaseClickListener;
+import com.example.vahe.newsfeed.listener.OnLoadMoreListener;
 import com.example.vahe.newsfeed.model.Article;
-import com.example.vahe.newsfeed.repository.NewsRepository;
+import com.example.vahe.newsfeed.repository.ArticleRepository;
 import com.example.vahe.newsfeed.screens.BaseAdapter;
 import com.example.vahe.newsfeed.screens.BaseVM;
 import com.example.vahe.newsfeed.screens.info.ArticleInfoFragment;
@@ -31,7 +32,7 @@ public class PageInfoVM extends BaseVM {
     public BaseAdapter pinnedAdapter;
 
     @Inject
-    public NewsRepository newsRepository;
+    public ArticleRepository articleRepository;
 
     public PageInfoVM(NavController navController, Context appContext) {
         super(navController, appContext);
@@ -47,8 +48,10 @@ public class PageInfoVM extends BaseVM {
     }
 
     private void getNewsFromAPI() {
-        String url = new ArticleUrlBuilder().build();
-        newsRepository.getPageInfoFromApi(url, list -> {
+        String url = new ArticleUrlBuilder()
+                .addOrderBy(Constants.ORDER_BY_NEWEST)
+                .build();
+        articleRepository.getPageInfoFromApi(url, list -> {
             if (list != null) {
                 articles.addAll(list);
                 getExecutor(ExecutorType.MAIN).execute(() -> {
@@ -61,7 +64,7 @@ public class PageInfoVM extends BaseVM {
     }
 
     private void getPinnedArticles() {
-        newsRepository.getArticlesFromDB(list -> {
+        articleRepository.getArticlesFromDB(list -> {
             if (list != null) {
                 pinnedArticles.addAll(list);
                 getExecutor(ExecutorType.MAIN).execute(() -> {
@@ -72,6 +75,27 @@ public class PageInfoVM extends BaseVM {
         });
 
     }
+
+    public OnLoadMoreListener loadMoreListener = new OnLoadMoreListener() {
+        @Override
+        public void onLoadMore() {
+            Article last = articles.get(articles.size() - 1);
+            String url = new ArticleUrlBuilder()
+                    .addFromDate(last.getWebPublicationDate())
+                    .addOrderBy(Constants.ORDER_BY_OLDEST)
+                    .build();
+            articleRepository.getPageInfoFromApi(url, list -> {
+                if (list != null) {
+                    articles.addAll(list);
+                    getExecutor(ExecutorType.MAIN).execute(() -> {
+                        Article lastArticle = articles.get(0);
+                        SharedPrefs.getInstance().putString(Constants.LAST_PUBLICATION_DATE, lastArticle.getWebPublicationDate());
+                        adapter.setItems(articles);
+                    });
+                }
+            });
+        }
+    };
 
     private BaseClickListener baseClickListener = obj -> {
         Article article = (Article) obj;

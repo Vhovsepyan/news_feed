@@ -16,14 +16,23 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.example.vahe.newsfeed.listener.EndlessRecyclerViewScrollListener;
+import com.example.vahe.newsfeed.listener.OnLoadMoreListener;
 
 public class BindingHelper {
 
-    @BindingAdapter({"initVerticalRecyclerView"})
-    public static void initVerticalRecyclerView(RecyclerView recyclerView, RecyclerView.Adapter adapter) {
+    @BindingAdapter({"initVerticalRecyclerView", "loadMoreListener"})
+    public static void initVerticalRecyclerView(RecyclerView recyclerView, RecyclerView.Adapter adapter, OnLoadMoreListener loadMoreListener) {
         LinearLayoutManager llm = new LinearLayoutManager(recyclerView.getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(llm) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                loadMoreListener.onLoadMore();
+            }
+        };
+        recyclerView.addOnScrollListener(scrollListener);
         recyclerView.setAdapter(adapter);
     }
 

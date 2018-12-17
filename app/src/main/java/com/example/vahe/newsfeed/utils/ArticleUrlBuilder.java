@@ -9,11 +9,13 @@ public class ArticleUrlBuilder {
     private final String fromDate = "&from-date";
     private String toDate = "&to-date";
     private String pageSize = "&page-size";
+    private String orderBy = "&order-by";
     private String showFields = "show-fields=thumbnail,trailText,headline,body";
 
     private String fromDateValue;
     private String toDateValue;
-    private int pageSizeValue = 20;
+    private int pageSizeValue = 5;
+    private String orderByValue;
 
     private StringBuilder urlBuilder = new StringBuilder();
 
@@ -36,6 +38,12 @@ public class ArticleUrlBuilder {
         return this;
     }
 
+    public ArticleUrlBuilder addOrderBy(String orderBy) {
+        this.orderByValue = orderBy;
+        return this;
+
+    }
+
     public ArticleUrlBuilder addPageSize(int pageSize) {
         this.pageSizeValue = pageSize;
         return this;
@@ -51,6 +59,11 @@ public class ArticleUrlBuilder {
             urlBuilder.append(this.fromDate)
                     .append("=")
                     .append(fromDateValue);
+        }
+        if (!TextUtils.isEmpty(orderByValue)){
+            urlBuilder.append(this.orderBy)
+                    .append("=")
+                    .append(orderByValue);
         }
         if (pageSizeValue >= 0) {
             urlBuilder.append(pageSize)

@@ -16,7 +16,7 @@ import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.R;
 import com.example.vahe.newsfeed.listener.OnListReadyListener;
 import com.example.vahe.newsfeed.model.Article;
-import com.example.vahe.newsfeed.repository.NewsRepository;
+import com.example.vahe.newsfeed.repository.ArticleRepository;
 import com.example.vahe.newsfeed.screens.MainActivity;
 import com.example.vahe.newsfeed.utils.AppLog;
 import com.example.vahe.newsfeed.utils.ArticleUrlBuilder;
@@ -34,7 +34,7 @@ public class MyJobService extends JobService {
     private String lastUpdateDate = "";
 
     @Inject
-    public NewsRepository repository;
+    public ArticleRepository repository;
 
     private Handler handler = new Handler();
 

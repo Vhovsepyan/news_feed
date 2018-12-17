@@ -1,8 +1,8 @@
 package com.example.vahe.newsfeed.di;
 
 import com.example.vahe.newsfeed.dao.AppDatabase;
-import com.example.vahe.newsfeed.repository.NewsRepository;
-import com.example.vahe.newsfeed.repository.NewsRepositoryImpl;
+import com.example.vahe.newsfeed.repository.ArticleRepository;
+import com.example.vahe.newsfeed.repository.ArticleRepositoryImpl;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -20,7 +20,7 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    public NewsRepository provideNewsRepository(@Named("database")AppDatabase database){
-        return new NewsRepositoryImpl(database.getArticleDao());
+    public ArticleRepository provideNewsRepository(@Named("database")AppDatabase database){
+        return new ArticleRepositoryImpl(database.getArticleDao());
     }
 }
