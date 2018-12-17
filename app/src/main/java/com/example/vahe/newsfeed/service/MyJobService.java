@@ -54,7 +54,7 @@ public class MyJobService extends JobService {
             String url = new ArticleUrlBuilder()
                     .addFromDate(lastUpdateDate)
                     .build();
-            repository.getPageInfoFromApi(url, listReadyListener);
+            repository.getArticlesFromApi(url, listReadyListener);
         }, 30000);
         return false;
     }

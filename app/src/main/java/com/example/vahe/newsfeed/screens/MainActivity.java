@@ -58,14 +58,12 @@ public class MainActivity extends AppCompatActivity implements ActivityView {
         startService(startServiceIntent);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onPause() {
         super.onPause();
         scheduleJob();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onResume() {
         super.onResume();
@@ -92,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements ActivityView {
         return navController;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void scheduleJob() {
         JobScheduler jobScheduler = (JobScheduler) getApplicationContext()
                 .getSystemService(JOB_SCHEDULER_SERVICE);
@@ -107,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements ActivityView {
         jobScheduler.schedule(jobInfo);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void cancelAllJobs() {
         JobScheduler tm = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
         tm.cancelAll();

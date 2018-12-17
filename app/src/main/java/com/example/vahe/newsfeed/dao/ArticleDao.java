@@ -3,7 +3,6 @@ package com.example.vahe.newsfeed.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
-import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.model.entity.ArticleTable;
 
 import java.util.List;
@@ -15,6 +14,6 @@ public interface ArticleDao extends BaseDao<ArticleTable> {
     ArticleTable getArticleById(String articleId);
 
     @Query("SELECT * FROM article_table")
-    List<Article> getPinnedArticles();
+    List<ArticleTable> getPinnedArticles();
 
 }

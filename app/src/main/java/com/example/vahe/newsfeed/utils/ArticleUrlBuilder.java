@@ -8,14 +8,20 @@ public class ArticleUrlBuilder {
     private final static String TARGET_URL = "http://content.guardianapis.com/search?";
     private final String fromDate = "&from-date";
     private String toDate = "&to-date";
+    private String page = "&page";
     private String pageSize = "&page-size";
+    private String useDate = "&use-date";
     private String orderBy = "&order-by";
+    private String orderDate = "&order-date";
     private String showFields = "show-fields=thumbnail,trailText,headline,body";
 
     private String fromDateValue;
     private String toDateValue;
-    private int pageSizeValue = 5;
+    private int pageValue;
+    private int pageSizeValue = 50;
+    private String useDateValue;
     private String orderByValue;
+    private String orderDateValue;
 
     private StringBuilder urlBuilder = new StringBuilder();
 
@@ -38,10 +44,25 @@ public class ArticleUrlBuilder {
         return this;
     }
 
+    public ArticleUrlBuilder addUseDate(String useDate) {
+        this.useDateValue = useDate;
+        return this;
+    }
+
     public ArticleUrlBuilder addOrderBy(String orderBy) {
         this.orderByValue = orderBy;
         return this;
+    }
 
+    public ArticleUrlBuilder addOrderDate(String orderDate) {
+        this.orderDateValue = orderDate;
+        return this;
+
+    }
+
+    public ArticleUrlBuilder addPage(int page) {
+        this.pageValue = page;
+        return this;
     }
 
     public ArticleUrlBuilder addPageSize(int pageSize) {
@@ -60,12 +81,30 @@ public class ArticleUrlBuilder {
                     .append("=")
                     .append(fromDateValue);
         }
-        if (!TextUtils.isEmpty(orderByValue)){
+        if (!TextUtils.isEmpty(useDateValue)) {
+            urlBuilder.append(this.useDate)
+                    .append("=")
+                    .append(useDateValue);
+        }
+
+        if (!TextUtils.isEmpty(orderByValue)) {
             urlBuilder.append(this.orderBy)
                     .append("=")
                     .append(orderByValue);
         }
-        if (pageSizeValue >= 0) {
+        if (!TextUtils.isEmpty(orderDateValue)) {
+            urlBuilder.append(this.orderDate)
+                    .append("=")
+                    .append(orderDateValue);
+        }
+
+        if (pageValue > 0) {
+            urlBuilder.append(page)
+                    .append("=")
+                    .append(pageValue);
+        }
+
+        if (pageSizeValue > 0) {
             urlBuilder.append(pageSize)
                     .append("=")
                     .append(pageSizeValue);

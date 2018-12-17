@@ -9,6 +9,7 @@ import com.example.vahe.newsfeed.executors.ExecutorType;
 import com.example.vahe.newsfeed.listener.BaseClickListener;
 import com.example.vahe.newsfeed.listener.OnLoadMoreListener;
 import com.example.vahe.newsfeed.model.Article;
+import com.example.vahe.newsfeed.model.PageInfo;
 import com.example.vahe.newsfeed.repository.ArticleRepository;
 import com.example.vahe.newsfeed.screens.BaseAdapter;
 import com.example.vahe.newsfeed.screens.BaseVM;
@@ -30,6 +31,7 @@ public class PageInfoVM extends BaseVM {
     private List<Article> pinnedArticles = new ArrayList<>();
     public BaseAdapter adapter;
     public BaseAdapter pinnedAdapter;
+    private PageInfo pageInfo;
 
     @Inject
     public ArticleRepository articleRepository;
@@ -49,11 +51,14 @@ public class PageInfoVM extends BaseVM {
 
     private void getNewsFromAPI() {
         String url = new ArticleUrlBuilder()
+                .addUseDate(Constants.USE_DATE_PUBLISHED)
                 .addOrderBy(Constants.ORDER_BY_NEWEST)
+                .addOrderDate(Constants.ORDER_DATE_PUBLISHED)
                 .build();
-        articleRepository.getPageInfoFromApi(url, list -> {
-            if (list != null) {
-                articles.addAll(list);
+        articleRepository.getPageInfoFromApi(url, pageInfo -> {
+            if (pageInfo != null) {
+                this.pageInfo = pageInfo;
+                articles.addAll(pageInfo.getArticles());
                 getExecutor(ExecutorType.MAIN).execute(() -> {
                     Article lastArticle = articles.get(0);
                     SharedPrefs.getInstance().putString(Constants.LAST_PUBLICATION_DATE, lastArticle.getWebPublicationDate());
@@ -79,17 +84,16 @@ public class PageInfoVM extends BaseVM {
     public OnLoadMoreListener loadMoreListener = new OnLoadMoreListener() {
         @Override
         public void onLoadMore() {
-            Article last = articles.get(articles.size() - 1);
             String url = new ArticleUrlBuilder()
-                    .addFromDate(last.getWebPublicationDate())
-                    .addOrderBy(Constants.ORDER_BY_OLDEST)
+                    .addPage(pageInfo.getCurrentPage() + 1)
+                    .addUseDate(Constants.USE_DATE_PUBLISHED)
+                    .addOrderDate(Constants.ORDER_DATE_PUBLISHED)
                     .build();
-            articleRepository.getPageInfoFromApi(url, list -> {
-                if (list != null) {
-                    articles.addAll(list);
+            articleRepository.getPageInfoFromApi(url, pageInfo -> {
+                if (pageInfo != null) {
+                    PageInfoVM.this.pageInfo = pageInfo;
+                    articles.addAll(pageInfo.getArticles());
                     getExecutor(ExecutorType.MAIN).execute(() -> {
-                        Article lastArticle = articles.get(0);
-                        SharedPrefs.getInstance().putString(Constants.LAST_PUBLICATION_DATE, lastArticle.getWebPublicationDate());
                         adapter.setItems(articles);
                     });
                 }

@@ -1,15 +1,16 @@
 package com.example.vahe.newsfeed.repository;
 
 import com.example.vahe.newsfeed.dao.ArticleDao;
+import com.example.vahe.newsfeed.executors.ExecutorService;
+import com.example.vahe.newsfeed.executors.ExecutorType;
 import com.example.vahe.newsfeed.http.RequestHelper;
 import com.example.vahe.newsfeed.http.RequestHelperImpl;
 import com.example.vahe.newsfeed.listener.OnListReadyListener;
+import com.example.vahe.newsfeed.listener.OnObjectReadyListener;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.model.PageInfo;
 import com.example.vahe.newsfeed.model.entity.ArticleTable;
 import com.example.vahe.newsfeed.model.request.PageInfoRequestModel;
-import com.example.vahe.newsfeed.executors.ExecutorService;
-import com.example.vahe.newsfeed.executors.ExecutorType;
 import com.example.vahe.newsfeed.utils.Constants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -33,7 +35,30 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
-    public void getPageInfoFromApi(String url, OnListReadyListener<Article> onListReadyListener) {
+    public void getPageInfoFromApi(String url, OnObjectReadyListener<PageInfo> onListReadyListener) {
+        getExecutor(ExecutorType.SERVER_COMMUNICATION).execute(() -> {
+            String data = requestHelper.getArticles(url);
+            PageInfo pageInfo = null;
+            try {
+
+                JSONObject jsonObject = new JSONObject(data);
+                Gson gson = new GsonBuilder().create();
+                Type collectionType = new TypeToken<PageInfoRequestModel>() {
+                }.getType();
+                PageInfoRequestModel info = gson.fromJson(jsonObject.getJSONObject(Constants.RESPONSE_KEY).toString(), collectionType);
+                if (info != null) {
+                    pageInfo = new PageInfo(info);
+                    onListReadyListener.onReady(pageInfo);
+                }
+
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void getArticlesFromApi(String url, OnListReadyListener<Article> onListReadyListener) {
         getExecutor(ExecutorType.SERVER_COMMUNICATION).execute(() -> {
             String data = requestHelper.getArticles(url);
             PageInfo pageInfo = null;
@@ -59,8 +84,15 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     @Override
     public void getArticlesFromDB(OnListReadyListener onListReadyListener) {
         getExecutor(ExecutorType.DB_COMMUNICATION).execute(() -> {
-            List<Article> articles = articleDao.getPinnedArticles();
-            onListReadyListener.onReady(articles);
+            List<Article> articleList = new ArrayList<>();
+            List<ArticleTable> articles = articleDao.getPinnedArticles();
+            if (articles != null && !articles.isEmpty()) {
+                for (int i = 0; i < articles.size(); i++) {
+                    ArticleTable articleTable = articles.get(i);
+                    articleList.add(new Article(articleTable));
+                }
+            }
+            onListReadyListener.onReady(articleList);
         });
     }
 

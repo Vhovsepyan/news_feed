@@ -3,6 +3,7 @@ package com.example.vahe.newsfeed.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.vahe.newsfeed.model.entity.ArticleTable;
 import com.example.vahe.newsfeed.model.request.ArticleRequestModel;
 
 public class Article implements BaseObject, Parcelable {
@@ -30,6 +31,20 @@ public class Article implements BaseObject, Parcelable {
     private boolean isPinned;
 
     public Article() {
+    }
+
+    public Article(ArticleTable articleTable) {
+        this.id = articleTable.getId();
+        this.type = articleTable.getType();
+        this.sectionId = articleTable.getSectionId();
+        this.sectionName = articleTable.getSectionName();
+        this.webPublicationDate = articleTable.getWebPublicationDate();
+        this.webTitle = articleTable.getWebTitle();
+        this.webUrl = articleTable.getWebUrl();
+        this.thumbnail = articleTable.getThumbnail();
+        this.trailText = articleTable.getTrailText();
+        this.body = articleTable.getBody();
+        this.isPinned = articleTable.isPinned();
     }
 
     public Article(ArticleRequestModel requestModel) {
