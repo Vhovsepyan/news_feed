@@ -1,8 +1,14 @@
 package com.example.vahe.newsfeed.screens.home;
 
 import android.content.Context;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.example.vahe.newsfeed.R;
 import com.example.vahe.newsfeed.executors.ExecutorType;
@@ -27,20 +33,26 @@ import javax.inject.Inject;
 import androidx.navigation.NavController;
 
 public class PageInfoVM extends BaseVM {
+    public ObservableBoolean isListViewMode = new ObservableBoolean(true);
+    public ObservableField<BaseAdapter> baseAdapterObservableField = new ObservableField<>();
     private CopyOnWriteArrayList<Article> articles = new CopyOnWriteArrayList<>();
     private List<Article> pinnedArticles = new ArrayList<>();
     public BaseAdapter adapter;
     public BaseAdapter pinnedAdapter;
     private PageInfo pageInfo;
+    private LayoutInflater inflater;
 
     @Inject
     public ArticleRepository articleRepository;
 
     public PageInfoVM(NavController navController, Context appContext) {
         super(navController, appContext);
-        LayoutInflater inflater = LayoutInflater.from(appContext);
-        adapter = new BaseAdapter(inflater, baseClickListener);
-        pinnedAdapter = new BaseAdapter(inflater, baseClickListener);
+        inflater = LayoutInflater.from(appContext);
+        int mode = getPreferences().getInt(Constants.HOME_VIEW_MODE_KEY, 0);
+        adapter = new BaseAdapter(inflater, baseClickListener, mode);
+        baseAdapterObservableField.set(adapter);
+        pinnedAdapter = new BaseAdapter(inflater, baseClickListener, mode);
+        isListViewMode.set(mode == RecyclerViewSwitchModeDef.VERTICAL);
     }
 
     @Override
@@ -113,4 +125,53 @@ public class PageInfoVM extends BaseVM {
         super.onDestroyView();
     }
 
+
+    @Override
+    protected void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // TODO Add your menu entries here
+        inflater.inflate(R.menu.page_info_menu, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem menuItem = menu.findItem(R.id.action_pin);
+        if (isListViewMode.get()) {
+            menuItem.setTitle(getString(R.string.stagger_text));
+        } else {
+            menuItem.setTitle(getString(R.string.list_text));
+        }
+    }
+
+    @Override
+    protected void onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_pin: {
+                handelPinAction(item, isListViewMode.get());
+            }
+        }
+    }
+
+    private void handelPinAction(MenuItem menuItem, boolean isListMode) {
+        int viewMode;
+        if (isListMode) {
+            viewMode = RecyclerViewSwitchModeDef.PINTEREST;
+            isListViewMode.set(false);
+            menuItem.setTitle(getString(R.string.list_text));
+        } else {
+            viewMode = RecyclerViewSwitchModeDef.VERTICAL;
+            isListViewMode.set(true);
+            menuItem.setTitle(getString(R.string.stagger_text));
+        }
+        getPreferences().putInt(Constants.HOME_VIEW_MODE_KEY, viewMode);
+        adapter = new BaseAdapter(inflater, baseClickListener, viewMode);
+        adapter.setItems(articles);
+        baseAdapterObservableField.set(adapter);
+    }
+
+    @IntDef({RecyclerViewSwitchModeDef.VERTICAL, RecyclerViewSwitchModeDef.PINTEREST})
+    public @interface RecyclerViewSwitchModeDef {
+        int VERTICAL = 0;
+        int PINTEREST = 1;
+    }
 }

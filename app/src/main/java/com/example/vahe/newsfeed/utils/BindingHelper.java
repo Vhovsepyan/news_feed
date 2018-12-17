@@ -7,8 +7,10 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +37,22 @@ public class BindingHelper {
         recyclerView.addOnScrollListener(scrollListener);
         recyclerView.setAdapter(adapter);
     }
+
+    @BindingAdapter({"initStaggeredRecyclerView", "loadMoreListener"})
+    public static void initStaggeredRecyclerView(RecyclerView recyclerView, RecyclerView.Adapter adapter, OnLoadMoreListener loadMoreListener) {
+        StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(llm) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                loadMoreListener.onLoadMore();
+            }
+        };
+        recyclerView.addOnScrollListener(scrollListener);
+        recyclerView.setAdapter(adapter);
+    }
+
 
     @BindingAdapter({"initHorizontalRecyclerView"})
     public static void initHorizontalRecyclerView(RecyclerView recyclerView, RecyclerView.Adapter adapter) {
@@ -76,6 +94,15 @@ public class BindingHelper {
             textView.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT));
         } else {
             textView.setText(Html.fromHtml(text));
+        }
+    }
+
+    @BindingAdapter({"visibility"})
+    public static void visibility(View view, boolean isVisibile) {
+        if (isVisibile) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.GONE);
         }
     }
 }

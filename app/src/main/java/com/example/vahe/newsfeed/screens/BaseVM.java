@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.example.vahe.newsfeed.executors.ExecutorService;
 import com.example.vahe.newsfeed.executors.ExecutorType;
+import com.example.vahe.newsfeed.utils.SharedPrefs;
 
 import java.util.concurrent.Executor;
 
@@ -75,5 +76,9 @@ public abstract class BaseVM<T extends BaseFragment> extends BaseObservable {
 
     protected Executor getExecutor(@ExecutorType int type) {
         return ExecutorService.getExecutor(type);
+    }
+
+    protected SharedPrefs getPreferences() {
+        return SharedPrefs.getInstance();
     }
 }

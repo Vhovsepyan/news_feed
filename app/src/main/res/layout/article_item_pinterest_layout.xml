@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.vahe.newsfeed.model.Article" />
+
+        <variable
+            name="holder"
+            type="com.example.vahe.newsfeed.screens.viewholders.ArticelStaggeredViewHolder" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false">
+
+        <ImageView
+            android:id="@+id/avatar"
+            src="@{item.thumbnail}"
+            android:layout_width="500px"
+            android:layout_height="300px"
+            android:layout_marginTop="@dimen/half_padding"
+            tools:src="@drawable/ic_menu_slideshow" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/padding"
+            android:layout_marginEnd="@dimen/padding"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@{item.webTitle}"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/small_text_size"
+            tools:text="title" />
+
+        <TextView
+            android:id="@+id/section"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_centerHorizontal="true"
+            android:singleLine="true"
+            android:text="@{item.sectionName}"
+            android:textColor="@color/color_grey"
+            android:textSize="@dimen/small_text_size"
+            android:textStyle="italic"
+            tools:text="section" />
+    </RelativeLayout>
+</layout>

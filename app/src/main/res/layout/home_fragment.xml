@@ -42,9 +42,19 @@
             android:background="@color/color_grey" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            initVerticalRecyclerView="@{viewModel.adapter}"
+            android:id="@+id/list_recycler_view"
+            initVerticalRecyclerView="@{viewModel.baseAdapterObservableField}"
             loadMoreListener="@{viewModel.loadMoreListener}"
+            visibility="@{viewModel.isListViewMode}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/divider_line" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/staggered_recycler_view"
+            initStaggeredRecyclerView="@{viewModel.baseAdapterObservableField}"
+            loadMoreListener="@{viewModel.loadMoreListener}"
+            visibility="@{!viewModel.isListViewMode}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/divider_line" />

@@ -19,11 +19,14 @@ public class BaseAdapter<T extends BaseObject> extends RecyclerView.Adapter<Base
     private ViewHolderProvider<T> viewHolderProvider;
 
     private LayoutInflater inflater;
+    private int viewMode;
 
-    public BaseAdapter(LayoutInflater inflater, BaseClickListener baseClickListener) {
+    public BaseAdapter(LayoutInflater inflater, BaseClickListener baseClickListener, int viewMode) {
         this.inflater = inflater;
         this.baseClickListener = baseClickListener;
         viewHolderProvider = new ViewHolderProvider<>();
+        this.viewMode = viewMode;
+        viewHolderProvider.updateViewMode(viewMode);
     }
 
     public void setItems(List<T> items) {
@@ -46,5 +49,10 @@ public class BaseAdapter<T extends BaseObject> extends RecyclerView.Adapter<Base
     @Override
     public int getItemCount() {
         return items == null ? 0 : items.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return viewMode;
     }
 }

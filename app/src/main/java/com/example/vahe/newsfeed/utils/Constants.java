@@ -15,4 +15,7 @@ public interface Constants {
 
     //SharedPReference Constants
     String LAST_PUBLICATION_DATE = "LAST_PUBLICATION_DATE";
+
+    String HOME_VIEW_MODE_KEY = "HOME_VIEW_MODE_KEY";
+
 }
