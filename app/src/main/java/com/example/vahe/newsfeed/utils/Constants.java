@@ -18,4 +18,6 @@ public interface Constants {
 
     String HOME_VIEW_MODE_KEY = "HOME_VIEW_MODE_KEY";
 
+    String ARTICLES_JSON_DATA_KEY = "ARTICLES_JSON_DATA_KEY";
+
 }

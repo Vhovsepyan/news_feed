@@ -5,6 +5,7 @@ import com.example.vahe.newsfeed.executors.ExecutorService;
 import com.example.vahe.newsfeed.executors.ExecutorType;
 import com.example.vahe.newsfeed.http.RequestHelper;
 import com.example.vahe.newsfeed.http.RequestHelperImpl;
+import com.example.vahe.newsfeed.listener.OnDataReadyListener;
 import com.example.vahe.newsfeed.listener.OnListReadyListener;
 import com.example.vahe.newsfeed.listener.OnObjectReadyListener;
 import com.example.vahe.newsfeed.model.Article;
@@ -32,6 +33,14 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     public ArticleRepositoryImpl(ArticleDao articleDao, RequestHelper requestHelper) {
         this.requestHelper = requestHelper;
         this.articleDao = articleDao;
+    }
+
+    @Override
+    public void getStringDataFromApi(String url, OnDataReadyListener<String> onDataReadyListener) {
+        getExecutor(ExecutorType.SERVER_COMMUNICATION).execute(() -> {
+            String data = requestHelper.getArticles(url);
+            onDataReadyListener.onDataReady(data);
+        });
     }
 
     @Override
