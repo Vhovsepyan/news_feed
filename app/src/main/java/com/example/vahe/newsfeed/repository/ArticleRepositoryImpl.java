@@ -25,12 +25,12 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 public class ArticleRepositoryImpl implements ArticleRepository {
-    private RequestHelper requestHelper;
 
+    private RequestHelper requestHelper;
     private ArticleDao articleDao;
 
-    public ArticleRepositoryImpl(ArticleDao articleDao) {
-        this.requestHelper = new RequestHelperImpl();
+    public ArticleRepositoryImpl(ArticleDao articleDao, RequestHelper requestHelper) {
+        this.requestHelper = requestHelper;
         this.articleDao = articleDao;
     }
 

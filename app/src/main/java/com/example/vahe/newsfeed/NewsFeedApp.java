@@ -6,6 +6,7 @@ import com.example.vahe.newsfeed.di.AppComponent;
 import com.example.vahe.newsfeed.di.DaggerAppComponent;
 import com.example.vahe.newsfeed.di.DatabaseModule;
 import com.example.vahe.newsfeed.di.RepositoryModule;
+import com.example.vahe.newsfeed.di.RequestModule;
 import com.example.vahe.newsfeed.utils.SharedPrefs;
 
 public class NewsFeedApp extends Application {
@@ -18,6 +19,7 @@ public class NewsFeedApp extends Application {
         appComponent = DaggerAppComponent.builder()
                 .repositoryModule(new RepositoryModule())
                 .databaseModule(new DatabaseModule(this))
+                .requestModule(new RequestModule())
                 .build();
         SharedPrefs.initialize(this);
 
