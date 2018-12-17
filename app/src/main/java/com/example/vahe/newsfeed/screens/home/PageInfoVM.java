@@ -43,6 +43,7 @@ import androidx.navigation.NavController;
 
 public class PageInfoVM extends BaseVM {
     public ObservableBoolean isListViewMode = new ObservableBoolean(true);
+    public ObservableBoolean isPinnedVisible = new ObservableBoolean(false);
     public ObservableField<BaseAdapter> baseAdapterObservableField = new ObservableField<>();
     private CopyOnWriteArrayList<Article> articles = new CopyOnWriteArrayList<>();
     private List<Article> pinnedArticles = new ArrayList<>();
@@ -124,6 +125,7 @@ public class PageInfoVM extends BaseVM {
         articleRepository.getArticlesFromDB(list -> {
             if (list != null) {
                 pinnedArticles.addAll(list);
+                isPinnedVisible.set(pinnedArticles.size() > 0);
                 getExecutor(ExecutorType.MAIN).execute(() -> {
                     pinnedAdapter.setItems(pinnedArticles);
                 });

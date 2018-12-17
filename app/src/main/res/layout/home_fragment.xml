@@ -15,6 +15,7 @@
 
         <TextView
             android:id="@+id/pinned_text_layout"
+            visibility="@{viewModel.isPinnedVisible}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding"
@@ -26,6 +27,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/pinned_news_recycler_view"
             initHorizontalRecyclerView="@{viewModel.pinnedAdapter}"
+            visibility="@{viewModel.isPinnedVisible}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/pinned_text_layout"
@@ -35,6 +37,7 @@
 
         <View
             android:id="@+id/divider_line"
+            visibility="@{viewModel.isPinnedVisible}"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/pinned_news_recycler_view"

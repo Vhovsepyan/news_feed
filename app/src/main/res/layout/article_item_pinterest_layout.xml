@@ -24,6 +24,7 @@
             src="@{item.thumbnail}"
             android:layout_width="500px"
             android:layout_height="300px"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/half_padding"
             tools:src="@drawable/ic_menu_slideshow" />
 

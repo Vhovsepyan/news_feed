@@ -110,6 +110,12 @@ public class MainActivity extends AppCompatActivity implements ActivityView {
     }
 
     @Override
+    protected void onDestroy() {
+        SharedPrefs.getInstance().putString(Constants.ARTICLES_JSON_DATA_KEY, "");
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         return navController.navigateUp();
     }

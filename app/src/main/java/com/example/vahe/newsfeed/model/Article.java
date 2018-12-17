@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.example.vahe.newsfeed.model.entity.ArticleTable;
 import com.example.vahe.newsfeed.model.request.ArticleRequestModel;
 
+import java.util.Random;
+
 public class Article implements BaseObject, Parcelable {
 
     private String id;
@@ -30,6 +32,10 @@ public class Article implements BaseObject, Parcelable {
 
     private boolean isPinned;
 
+    private int thumbnailWidth;
+
+    private int thumbnailHeight;
+
     public Article() {
     }
 
@@ -45,6 +51,8 @@ public class Article implements BaseObject, Parcelable {
         this.trailText = articleTable.getTrailText();
         this.body = articleTable.getBody();
         this.isPinned = articleTable.isPinned();
+        this.thumbnailHeight = getRandomHeight();
+        this.thumbnailWidth = getRandomWidth();
     }
 
     public Article(ArticleRequestModel requestModel) {
@@ -58,6 +66,8 @@ public class Article implements BaseObject, Parcelable {
         this.thumbnail = requestModel.getFields().getThumbnail();
         this.trailText = requestModel.getFields().getTrailText();
         this.body = requestModel.getFields().getBody();
+        this.thumbnailHeight = getRandomHeight();
+        this.thumbnailWidth = getRandomWidth();
     }
 
     protected Article(Parcel in) {
@@ -72,6 +82,8 @@ public class Article implements BaseObject, Parcelable {
         trailText = in.readString();
         body = in.readString();
         isPinned = in.readByte() != 0;
+        thumbnailWidth = in.readInt();
+        thumbnailHeight = in.readInt();
     }
 
     @Override
@@ -87,6 +99,8 @@ public class Article implements BaseObject, Parcelable {
         dest.writeString(trailText);
         dest.writeString(body);
         dest.writeByte((byte) (isPinned ? 1 : 0));
+        dest.writeInt(thumbnailWidth);
+        dest.writeInt(thumbnailHeight);
     }
 
     @Override
@@ -192,6 +206,28 @@ public class Article implements BaseObject, Parcelable {
 
     public void setPinned(boolean pinned) {
         isPinned = pinned;
+    }
+
+    public int getThumbnailWidth() {
+        return thumbnailWidth;
+    }
+
+    public int getThumbnailHeight() {
+        return thumbnailHeight;
+    }
+
+    private int getRandomHeight() {
+        Random r = new Random();
+        int low = 200;
+        int high = 400;
+        return r.nextInt(high - low) + low;
+    }
+
+    private int getRandomWidth() {
+        Random r = new Random();
+        int low = 400;
+        int high = 500;
+        return r.nextInt(high - low) + low;
     }
 
     @Override
