@@ -14,7 +14,8 @@ public interface Constants {
     String ORDER_DATE_LAST_MODIFIED = "last-modified";
 
     //SharedPReference Constants
-    String LAST_PUBLICATION_DATE = "LAST_PUBLICATION_DATE";
+    String PREF_LAST_PUBLICATION_DATE = "PREF_LAST_PUBLICATION_DATE";
+    String PREF_ARTICLE_JSON_KEY = "PREF_ARTICLE_JSON_KEY";
 
     String HOME_VIEW_MODE_KEY = "HOME_VIEW_MODE_KEY";
 

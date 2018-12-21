@@ -50,7 +50,7 @@ public class MyJobService extends JobService {
         handler.postDelayed(() -> {
             AppLog.i(" onStartJob ");
             lastUpdateDate = SharedPrefs.getInstance()
-                    .getString(Constants.LAST_PUBLICATION_DATE, "");
+                    .getString(Constants.PREF_LAST_PUBLICATION_DATE, "");
             String url = new ArticleUrlBuilder()
                     .addUseDate(Constants.USE_DATE_PUBLISHED)
                     .addOrderBy(Constants.ORDER_BY_NEWEST)

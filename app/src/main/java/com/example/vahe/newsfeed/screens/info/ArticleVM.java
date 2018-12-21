@@ -30,8 +30,8 @@ public class ArticleVM extends BaseVM {
     @Override
     protected void onViewCreated(View view, Bundle bundle, ViewDataBinding binding) {
         super.onViewCreated(view, bundle, binding);
-        if (bundle != null && bundle.containsKey(ArticleInfoFragment.BUNDLE_KEY_INFO)) {
-            Article article = bundle.getParcelable(ArticleInfoFragment.BUNDLE_KEY_INFO);
+        if (bundle != null && bundle.containsKey(ArticleInfoFragment.BUNDLE_ARTICLE_ID_KEY_INFO)) {
+            Article article = bundle.getParcelable(ArticleInfoFragment.BUNDLE_ARTICLE_ID_KEY_INFO);
             setArticle(article);
             binding.setVariable(BR.articleItem, this.article);
         }

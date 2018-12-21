@@ -4,8 +4,6 @@ import com.example.vahe.newsfeed.dao.ArticleDao;
 import com.example.vahe.newsfeed.executors.ExecutorService;
 import com.example.vahe.newsfeed.executors.ExecutorType;
 import com.example.vahe.newsfeed.http.RequestHelper;
-import com.example.vahe.newsfeed.http.RequestHelperImpl;
-import com.example.vahe.newsfeed.listener.OnDataReadyListener;
 import com.example.vahe.newsfeed.listener.OnListReadyListener;
 import com.example.vahe.newsfeed.listener.OnObjectReadyListener;
 import com.example.vahe.newsfeed.model.Article;
@@ -36,20 +34,11 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
-    public void getStringDataFromApi(String url, OnDataReadyListener<String> onDataReadyListener) {
-        getExecutor(ExecutorType.SERVER_COMMUNICATION).execute(() -> {
-            String data = requestHelper.getArticles(url);
-            onDataReadyListener.onDataReady(data);
-        });
-    }
-
-    @Override
     public void getPageInfoFromApi(String url, OnObjectReadyListener<PageInfo> onListReadyListener) {
         getExecutor(ExecutorType.SERVER_COMMUNICATION).execute(() -> {
             String data = requestHelper.getArticles(url);
             PageInfo pageInfo = null;
             try {
-
                 JSONObject jsonObject = new JSONObject(data);
                 Gson gson = new GsonBuilder().create();
                 Type collectionType = new TypeToken<PageInfoRequestModel>() {
@@ -57,7 +46,10 @@ public class ArticleRepositoryImpl implements ArticleRepository {
                 PageInfoRequestModel info = gson.fromJson(jsonObject.getJSONObject(Constants.RESPONSE_KEY).toString(), collectionType);
                 if (info != null) {
                     pageInfo = new PageInfo(info);
-                    onListReadyListener.onReady(pageInfo);
+                    PageInfo finalPageInfo = pageInfo;
+                    getExecutor(ExecutorType.MAIN).execute(() -> {
+                        onListReadyListener.onReady(finalPageInfo);
+                    });
                 }
 
             } catch (JSONException ex) {
@@ -80,7 +72,10 @@ public class ArticleRepositoryImpl implements ArticleRepository {
                 PageInfoRequestModel info = gson.fromJson(jsonObject.getJSONObject(Constants.RESPONSE_KEY).toString(), collectionType);
                 if (info != null) {
                     pageInfo = new PageInfo(info);
-                    onListReadyListener.onReady(pageInfo.getArticles());
+                    PageInfo finalPageInfo = pageInfo;
+                    getExecutor(ExecutorType.MAIN).execute(() -> {
+                        onListReadyListener.onReady(finalPageInfo.getArticles());
+                    });
                 }
 
             } catch (JSONException ex) {
@@ -91,7 +86,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
 
     @Override
-    public void getArticlesFromDB(OnListReadyListener onListReadyListener) {
+    public void getArticlesFromDB(OnListReadyListener<Article> onListReadyListener) {
         getExecutor(ExecutorType.DB_COMMUNICATION).execute(() -> {
             List<Article> articleList = new ArrayList<>();
             List<ArticleTable> articles = articleDao.getPinnedArticles();
@@ -101,17 +96,23 @@ public class ArticleRepositoryImpl implements ArticleRepository {
                     articleList.add(new Article(articleTable));
                 }
             }
-            onListReadyListener.onReady(articleList);
+            getExecutor(ExecutorType.MAIN).execute(() -> {
+                onListReadyListener.onReady(articleList);
+            });
         });
     }
 
     @Override
     public void getArticleById(String id, OnObjectReadyListener<Article> onReadyListener) {
-        ArticleTable articleTable = articleDao.getArticleById(id);
-        if (articleTable != null){
-            Article article = new Article(articleTable);
-            onReadyListener.onReady(article);
-        }
+        getExecutor(ExecutorType.DB_COMMUNICATION).execute(() -> {
+            ArticleTable articleTable = articleDao.getArticleById(id);
+            if (articleTable != null) {
+                Article article = new Article(articleTable);
+                getExecutor(ExecutorType.MAIN).execute(() -> {
+                    onReadyListener.onReady(article);
+                });
+            }
+        });
     }
 
     @Override

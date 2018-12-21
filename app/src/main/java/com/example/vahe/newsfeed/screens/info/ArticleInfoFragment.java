@@ -14,7 +14,7 @@ import com.example.vahe.newsfeed.screens.BaseFragment;
 import com.example.vahe.newsfeed.screens.BaseVM;
 
 public class ArticleInfoFragment extends BaseFragment {
-    public static String BUNDLE_KEY_INFO = "BUNDLE_KEY_INFO";
+    public static String BUNDLE_ARTICLE_ID_KEY_INFO = "BUNDLE_ARTICLE_ID_KEY_INFO";
     private ArticleVM viewModel;
 
     @Override

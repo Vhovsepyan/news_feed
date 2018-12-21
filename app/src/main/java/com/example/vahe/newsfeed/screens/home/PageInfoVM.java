@@ -74,7 +74,7 @@ public class PageInfoVM extends BaseVM {
                 articles.addAll(pageInfo.getArticles());
                 getExecutor(ExecutorType.MAIN).execute(() -> {
                     Article lastArticle = articles.get(0);
-                    SharedPrefs.getInstance().putString(Constants.LAST_PUBLICATION_DATE, lastArticle.getWebPublicationDate());
+                    SharedPrefs.getInstance().putString(Constants.PREF_LAST_PUBLICATION_DATE, lastArticle.getWebPublicationDate());
                     adapter.setItems(articles);
                     isProgessBarVisible.set(false);
                 });
@@ -119,7 +119,7 @@ public class PageInfoVM extends BaseVM {
     private BaseClickListener baseClickListener = obj -> {
         Article article = (Article) obj;
         Bundle bundle = new Bundle();
-        bundle.putParcelable(ArticleInfoFragment.BUNDLE_KEY_INFO, article);
+        bundle.putParcelable(ArticleInfoFragment.BUNDLE_ARTICLE_ID_KEY_INFO, article);
         getNavController().navigate(R.id.infoFragment, bundle);
     };
 

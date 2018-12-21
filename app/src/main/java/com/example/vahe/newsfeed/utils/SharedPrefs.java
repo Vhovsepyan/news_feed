@@ -55,19 +55,4 @@ public class SharedPrefs {
         return mMyPreferences.getBoolean(key, value);
     }
 
-    public void clear() {
-        mMyPreferences.edit().clear().apply();
-    }
-
-    public void remove(String key) {
-        mMyPreferences.edit().remove(key).apply();
-    }
-
-    public boolean contains(String key) {
-        return mMyPreferences.contains(key);
-    }
-
-    public interface Constants {
-        String IS_USER_LOGGED_IN_KEY = "IS_USER_LOGGED_IN_KEY";
-    }
 }
