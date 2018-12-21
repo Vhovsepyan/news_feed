@@ -8,7 +8,7 @@ import com.example.vahe.newsfeed.model.request.ArticleRequestModel;
 
 import java.util.Random;
 
-public class Article implements BaseObject, Parcelable {
+public class Article implements BaseObject, Parcelable, Cloneable {
 
     private String id;
 
@@ -233,5 +233,10 @@ public class Article implements BaseObject, Parcelable {
     @Override
     public int getObjectType() {
         return OBJECT_TYPE_ARTICLE;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
