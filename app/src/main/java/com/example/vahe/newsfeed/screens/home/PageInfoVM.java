@@ -3,12 +3,14 @@ package com.example.vahe.newsfeed.screens.home;
 import android.content.Context;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.vahe.newsfeed.R;
 import com.example.vahe.newsfeed.executors.ExecutorType;
@@ -57,9 +59,14 @@ public class PageInfoVM extends BaseVM {
 
     @Override
     protected void init() {
-        getPinnedArticles();
         isProgessBarVisible.set(true);
         getNewsFromAPI();
+    }
+
+    @Override
+    protected void onViewCreated(View view, Bundle bundle, ViewDataBinding binding) {
+        super.onViewCreated(view, bundle, binding);
+        getPinnedArticles();
     }
 
     private void getNewsFromAPI() {
@@ -85,6 +92,7 @@ public class PageInfoVM extends BaseVM {
     private void getPinnedArticles() {
         articleRepository.getArticlesFromDB(list -> {
             if (list != null) {
+                pinnedArticles.clear();
                 pinnedArticles.addAll(list);
                 isPinnedVisible.set(pinnedArticles.size() > 0);
                 getExecutor(ExecutorType.MAIN).execute(() -> {
@@ -138,7 +146,7 @@ public class PageInfoVM extends BaseVM {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        MenuItem menuItem = menu.findItem(R.id.action_pin);
+        MenuItem menuItem = menu.findItem(R.id.action_change_mode);
         if (isListViewMode.get()) {
             menuItem.setTitle(getString(R.string.stagger_text));
         } else {
@@ -149,13 +157,13 @@ public class PageInfoVM extends BaseVM {
     @Override
     protected void onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_pin: {
-                handelPinAction(item, isListViewMode.get());
+            case R.id.action_change_mode: {
+                handleChangeModeAction(item, isListViewMode.get());
             }
         }
     }
 
-    private void handelPinAction(MenuItem menuItem, boolean isListMode) {
+    private void handleChangeModeAction(MenuItem menuItem, boolean isListMode) {
         int viewMode;
         if (isListMode) {
             viewMode = RecyclerViewSwitchModeDef.PINTEREST;

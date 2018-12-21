@@ -32,8 +32,17 @@ public class ArticleVM extends BaseVM {
         super.onViewCreated(view, bundle, binding);
         if (bundle != null && bundle.containsKey(ArticleInfoFragment.BUNDLE_ARTICLE_ID_KEY_INFO)) {
             Article article = bundle.getParcelable(ArticleInfoFragment.BUNDLE_ARTICLE_ID_KEY_INFO);
-            setArticle(article);
-            binding.setVariable(BR.articleItem, this.article);
+            //ToDo need to change
+            if (article != null){
+                Article newArticle = null;
+                try {
+                    newArticle = (Article) article.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+                setArticle(newArticle);
+                binding.setVariable(BR.articleItem, this.article);
+            }
         }
     }
 
