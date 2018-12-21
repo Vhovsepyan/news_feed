@@ -26,13 +26,24 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
         this.context = context;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = onCreateViewModel();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         bundle = getArguments();
-        ActivityView activityView = (ActivityView) context;
-        navController = activityView.getNavController();
+        onBindViewModel(binding);
+        // this is for config changes
+        if (navController == null){
+            ActivityView activityView = (ActivityView) context;
+            navController = activityView.getNavController();
+        }
+        viewModel.setNavController(navController);
         return binding.getRoot();
     }
 
@@ -40,7 +51,6 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = onCreateViewModel(binding);
         viewModel.onViewCreated(view, bundle, binding);
         binding.setVariable(getVariable(), viewModel);
         binding.executePendingBindings();
@@ -84,7 +94,9 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
         return navController;
     }
 
-    protected abstract BaseVM onCreateViewModel(B binding);
+    protected abstract BaseVM onCreateViewModel();
+
+    protected abstract BaseVM onBindViewModel(B binding);
 
     public abstract int getVariable();
 

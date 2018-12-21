@@ -24,11 +24,17 @@ public class ArticleInfoFragment extends BaseFragment {
     }
 
     @Override
-    protected BaseVM onCreateViewModel(ViewDataBinding binding) {
-        viewModel = new ArticleVM(getNavController(), getAppContext());
+    protected BaseVM onCreateViewModel() {
+        viewModel = new ArticleVM(getAppContext());
         NewsFeedApp app = (NewsFeedApp) getAppContext();
         app.appComponent().inject(viewModel);
         return viewModel;
+    }
+
+    @Override
+    protected BaseVM onBindViewModel(ViewDataBinding binding) {
+        //ToDo implement functional if needed
+        return null;
     }
 
     @Override

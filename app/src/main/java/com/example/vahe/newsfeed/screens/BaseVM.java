@@ -21,8 +21,7 @@ public abstract class BaseVM<T extends BaseFragment> extends BaseObservable {
     private NavController navController;
     private Context appContext;
 
-    public BaseVM(NavController navController, Context appContext) {
-        this.navController = navController;
+    public BaseVM(Context appContext) {
         this.appContext = appContext;
     }
 
@@ -64,6 +63,10 @@ public abstract class BaseVM<T extends BaseFragment> extends BaseObservable {
 
     public NavController getNavController() {
         return navController;
+    }
+
+    public void setNavController(NavController navController) {
+        this.navController = navController;
     }
 
     public Context getAppContext() {

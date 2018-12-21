@@ -5,7 +5,6 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +16,6 @@ import com.example.vahe.newsfeed.listener.BaseClickListener;
 import com.example.vahe.newsfeed.listener.OnLoadMoreListener;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.model.PageInfo;
-import com.example.vahe.newsfeed.model.request.PageInfoRequestModel;
 import com.example.vahe.newsfeed.repository.ArticleRepository;
 import com.example.vahe.newsfeed.screens.BaseAdapter;
 import com.example.vahe.newsfeed.screens.BaseVM;
@@ -25,21 +23,12 @@ import com.example.vahe.newsfeed.screens.info.ArticleInfoFragment;
 import com.example.vahe.newsfeed.utils.ArticleUrlBuilder;
 import com.example.vahe.newsfeed.utils.Constants;
 import com.example.vahe.newsfeed.utils.SharedPrefs;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.inject.Inject;
-
-import androidx.navigation.NavController;
 
 public class PageInfoVM extends BaseVM {
     public ObservableBoolean isListViewMode = new ObservableBoolean(true);
@@ -56,8 +45,8 @@ public class PageInfoVM extends BaseVM {
     @Inject
     public ArticleRepository articleRepository;
 
-    public PageInfoVM(NavController navController, Context appContext) {
-        super(navController, appContext);
+    public PageInfoVM(Context appContext) {
+        super(appContext);
         inflater = LayoutInflater.from(appContext);
         int mode = getPreferences().getInt(Constants.HOME_VIEW_MODE_KEY, 0);
         adapter = new BaseAdapter(inflater, baseClickListener, mode);
@@ -69,40 +58,8 @@ public class PageInfoVM extends BaseVM {
     @Override
     protected void init() {
         getPinnedArticles();
-        String savedData = getPreferences().getString(Constants.ARTICLES_JSON_DATA_KEY, "");
         isProgessBarVisible.set(true);
-        if (TextUtils.isEmpty(savedData)){
-            getNewsFromAPI();
-        } else {
-            handleSavedData(savedData);
-        }
-    }
-
-    private void handleSavedData(String data){
-        getExecutor(ExecutorType.BACKGROUND).execute(()->{
-            try {
-                JSONObject jsonObject = new JSONObject(data);
-                Gson gson = new GsonBuilder().create();
-                Type collectionType = new TypeToken<PageInfoRequestModel>() {
-                }.getType();
-                PageInfoRequestModel info = gson.fromJson(jsonObject.getJSONObject(Constants.RESPONSE_KEY).toString(), collectionType);
-                if (info != null) {
-                    pageInfo = new PageInfo(info);
-                    articles.addAll(pageInfo.getArticles());
-                    getExecutor(ExecutorType.MAIN).execute(()->{
-                        Article lastArticle = articles.get(0);
-                        SharedPrefs.getInstance().putString(Constants.LAST_PUBLICATION_DATE, lastArticle.getWebPublicationDate());
-                        adapter.setItems(articles);
-                        isProgessBarVisible.set(false);
-                    });
-
-                }
-
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
-        });
-
+        getNewsFromAPI();
     }
 
     private void getNewsFromAPI() {

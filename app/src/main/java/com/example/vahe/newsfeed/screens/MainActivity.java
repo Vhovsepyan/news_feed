@@ -69,22 +69,6 @@ public class MainActivity extends AppCompatActivity implements ActivityView {
 
         Intent startServiceIntent = new Intent(this, MyJobService.class);
         startService(startServiceIntent);
-
-        saveArticles();
-    }
-
-    private void saveArticles() {
-        String url = new ArticleUrlBuilder()
-                .addUseDate(Constants.USE_DATE_PUBLISHED)
-                .addOrderBy(Constants.ORDER_BY_NEWEST)
-                .addOrderDate(Constants.ORDER_DATE_PUBLISHED)
-                .build();
-        articleRepository.getStringDataFromApi(url, data -> {
-                    if (!TextUtils.isEmpty(data)) {
-                        SharedPrefs.getInstance().putString(Constants.ARTICLES_JSON_DATA_KEY, data);
-                    }
-                }
-        );
     }
 
     @Override
@@ -107,12 +91,6 @@ public class MainActivity extends AppCompatActivity implements ActivityView {
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        SharedPrefs.getInstance().putString(Constants.ARTICLES_JSON_DATA_KEY, "");
-        super.onDestroy();
     }
 
     @Override

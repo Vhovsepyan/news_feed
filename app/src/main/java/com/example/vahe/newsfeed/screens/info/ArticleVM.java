@@ -17,16 +17,14 @@ import com.example.vahe.newsfeed.screens.BaseVM;
 
 import javax.inject.Inject;
 
-import androidx.navigation.NavController;
-
 public class ArticleVM extends BaseVM {
 
     @Inject
     public ArticleRepository articleRepository;
     public Article article;
 
-    public ArticleVM(NavController navController, Context appContext) {
-        super(navController, appContext);
+    public ArticleVM(Context appContext) {
+        super(appContext);
     }
 
     @Override
