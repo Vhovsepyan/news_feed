@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class PageInfoRequestModel {
+public class PageInfoResponseModel {
 
     @SerializedName("status")
     @Expose
@@ -43,7 +43,7 @@ public class PageInfoRequestModel {
 
     @SerializedName("results")
     @Expose
-    private List<ArticleRequestModel> articleRequestModels = null;
+    private List<ArticleResponseModel> articleResponseModels = null;
 
     public String getStatus() {
         return status;
@@ -109,18 +109,18 @@ public class PageInfoRequestModel {
         this.orderBy = orderBy;
     }
 
-    public List<ArticleRequestModel> getArticleRequestModels() {
-        return articleRequestModels;
+    public List<ArticleResponseModel> getArticleResponseModels() {
+        return articleResponseModels;
     }
 
-    public void setArticleRequestModels(List<ArticleRequestModel> articleRequestModels) {
-        this.articleRequestModels = articleRequestModels;
+    public void setArticleResponseModels(List<ArticleResponseModel> articleResponseModels) {
+        this.articleResponseModels = articleResponseModels;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "PageInfoRequestModel{" +
+        return "PageInfoResponseModel{" +
                 "status='" + status + '\'' +
                 ", userTier='" + userTier + '\'' +
                 ", total=" + total +
@@ -129,7 +129,7 @@ public class PageInfoRequestModel {
                 ", currentPage=" + currentPage +
                 ", pages=" + pages +
                 ", orderBy='" + orderBy + '\'' +
-                ", articleRequestModels=" + articleRequestModels +
+                ", articleResponseModels=" + articleResponseModels +
                 '}';
     }
 }

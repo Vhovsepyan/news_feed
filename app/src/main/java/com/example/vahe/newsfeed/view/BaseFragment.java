@@ -1,4 +1,4 @@
-package com.example.vahe.newsfeed.screens;
+package com.example.vahe.newsfeed.view;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.vahe.newsfeed.NewsFeedApp;
 
 import androidx.navigation.NavController;
 
@@ -47,11 +49,14 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.onViewCreated(view, bundle, binding);
         binding.setVariable(getVariable(), viewModel);
         binding.executePendingBindings();
     }
@@ -59,35 +64,30 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        viewModel.onStart();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.onResume();
     }
 
     @Override
     public void onPause() {
-        viewModel.onPause();
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        viewModel.onStop();
         super.onStop();
     }
 
     @Override
     public void onDestroyView() {
-        viewModel.onDestroyView();
         super.onDestroyView();
     }
 
-    protected Context getAppContext() {
-        return context.getApplicationContext();
+    protected NewsFeedApp getApplication() {
+        return (NewsFeedApp) context.getApplicationContext();
     }
 
     protected NavController getNavController() {

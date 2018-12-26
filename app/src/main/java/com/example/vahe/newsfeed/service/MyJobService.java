@@ -17,7 +17,7 @@ import com.example.vahe.newsfeed.R;
 import com.example.vahe.newsfeed.listener.OnListReadyListener;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.repository.ArticleRepository;
-import com.example.vahe.newsfeed.screens.MainActivity;
+import com.example.vahe.newsfeed.view.MainActivity;
 import com.example.vahe.newsfeed.utils.AppLog;
 import com.example.vahe.newsfeed.utils.ArticleUrlBuilder;
 import com.example.vahe.newsfeed.utils.Constants;

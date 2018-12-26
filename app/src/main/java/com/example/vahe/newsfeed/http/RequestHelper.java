@@ -1,5 +1,7 @@
 package com.example.vahe.newsfeed.http;
 
-public interface RequestHelper {
-    String getArticles(String url);
+import android.arch.lifecycle.LiveData;
+
+public interface RequestHelper<T> {
+    LiveData<T> getPageInfo();
 }

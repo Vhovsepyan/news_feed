@@ -1,7 +1,9 @@
 package com.example.vahe.newsfeed.model;
 
-import com.example.vahe.newsfeed.model.request.ArticleRequestModel;
-import com.example.vahe.newsfeed.model.request.PageInfoRequestModel;
+import android.support.annotation.IntDef;
+
+import com.example.vahe.newsfeed.model.request.ArticleResponseModel;
+import com.example.vahe.newsfeed.model.request.PageInfoResponseModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,28 +28,33 @@ public class PageInfo implements BaseObject {
 
     private List<Article> articles = null;
 
+    private int containerType;
+
     public PageInfo() {
     }
 
-    public PageInfo(PageInfoRequestModel pageInfoRequestModel) {
-        this.status = pageInfoRequestModel.getStatus();
-        this.userTier = pageInfoRequestModel.getUserTier();
-        this.total = pageInfoRequestModel.getTotal();
-        this.startIndex = pageInfoRequestModel.getStartIndex();
-        this.pageSize = pageInfoRequestModel.getPageSize();
-        this.currentPage = pageInfoRequestModel.getCurrentPage();
-        this.pages = pageInfoRequestModel.getPages();
-        this.orderBy = pageInfoRequestModel.getOrderBy();
-        initNews(pageInfoRequestModel.getArticleRequestModels());
+    public PageInfo(PageInfoResponseModel pageInfoResponseModel) {
+        this.status = pageInfoResponseModel.getStatus();
+        this.userTier = pageInfoResponseModel.getUserTier();
+        this.total = pageInfoResponseModel.getTotal();
+        this.startIndex = pageInfoResponseModel.getStartIndex();
+        this.pageSize = pageInfoResponseModel.getPageSize();
+        this.currentPage = pageInfoResponseModel.getCurrentPage();
+        this.pages = pageInfoResponseModel.getPages();
+        this.orderBy = pageInfoResponseModel.getOrderBy();
+        this.containerType = PageInfoContainerType.BODY;
+        initNews(pageInfoResponseModel.getArticleResponseModels());
 
     }
 
-    private void initNews(List<ArticleRequestModel> articleRequestModels) {
+    private void initNews(List<ArticleResponseModel> articleResponseModels) {
         articles = new ArrayList<>();
-        for (int i = 0; i < articleRequestModels.size(); i++) {
-            ArticleRequestModel requestModel = articleRequestModels.get(i);
-            Article article = new Article(requestModel);
-            articles.add(article);
+        if (articleResponseModels != null){
+            for (int i = 0; i < articleResponseModels.size(); i++) {
+                ArticleResponseModel requestModel = articleResponseModels.get(i);
+                Article article = new Article(requestModel);
+                articles.add(article);
+            }
         }
     }
 
@@ -121,5 +128,24 @@ public class PageInfo implements BaseObject {
 
     public void setArticles(List<Article> articles) {
         this.articles = articles;
+    }
+
+    public int getContainerType() {
+        return containerType;
+    }
+
+    public void setContainerType(@PageInfoContainerType int containerType) {
+        this.containerType = containerType;
+    }
+
+    @Override
+    public int getObjectType() {
+        return OBJECT_TYPE_PAGE_INFO;
+    }
+
+    @IntDef({PageInfoContainerType.HEADER, PageInfoContainerType.BODY})
+    public @interface PageInfoContainerType{
+        int HEADER = 0;
+        int BODY = 1;
     }
 }

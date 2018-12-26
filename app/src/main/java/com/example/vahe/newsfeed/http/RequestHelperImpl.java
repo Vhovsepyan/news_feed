@@ -1,31 +1,58 @@
 package com.example.vahe.newsfeed.http;
 
 
-import java.io.IOException;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import com.example.vahe.newsfeed.model.BaseObject;
+import com.example.vahe.newsfeed.model.PageInfo;
+import com.example.vahe.newsfeed.model.request.ResponseModel;
+import com.example.vahe.newsfeed.model.request.PageInfoResponseModel;
+import com.example.vahe.newsfeed.utils.AppLog;
 
-public class RequestHelperImpl implements RequestHelper {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-    private OkHttpClient client = new OkHttpClient();
+public class RequestHelperImpl<T extends BaseObject> implements RequestHelper {
+    private RetrofitAPIService apiService;
+    private Retrofit retrofit;
+    private static final String BASE_URL = "https://content.guardianapis.com/";
 
-    @Override
-    public String getArticles(String url) {
-        Request request = new Request.Builder()
-                .url(url)
+    public RequestHelperImpl() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        try {
-            Response response = client.newCall(request).execute();
-            if (response.body() != null) {
-                return response.body().string();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        apiService = retrofit.create(RetrofitAPIService.class);
     }
 
+    @Override
+    public LiveData<PageInfo> getPageInfo() {
+        final MutableLiveData<PageInfo> data = new MutableLiveData<>();
+        apiService.getPageInfo().enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call, retrofit2.Response<ResponseModel> response) {
+                AppLog.i(" onResponse = " + response.body());
+                if (response.isSuccessful()){
+                    ResponseModel responseModel = response.body();
+                    if (responseModel != null){
+                        PageInfoResponseModel requestModel = responseModel.getResponse();
+                        if (requestModel != null){
+                            PageInfo pageInfo = new PageInfo(requestModel);
+                            data.setValue(pageInfo);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                AppLog.i(" onFailureCall = " + t);
+                data.setValue(null);
+            }
+         });
+        return data;
+    }
 }

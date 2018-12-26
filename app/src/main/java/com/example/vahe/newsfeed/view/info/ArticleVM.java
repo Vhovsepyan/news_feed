@@ -1,19 +1,9 @@
-package com.example.vahe.newsfeed.screens.info;
+package com.example.vahe.newsfeed.view.info;
 
-import android.content.Context;
-import android.databinding.Bindable;
-import android.databinding.ViewDataBinding;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-
-import com.example.vahe.newsfeed.BR;
-import com.example.vahe.newsfeed.R;
+import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.repository.ArticleRepository;
-import com.example.vahe.newsfeed.screens.BaseVM;
+import com.example.vahe.newsfeed.view.BaseVM;
 
 import javax.inject.Inject;
 
@@ -23,10 +13,10 @@ public class ArticleVM extends BaseVM {
     public ArticleRepository articleRepository;
     public Article article;
 
-    public ArticleVM(Context appContext) {
-        super(appContext);
+    public ArticleVM(NewsFeedApp app) {
+        super(app);
     }
-
+/*
     @Override
     protected void onViewCreated(View view, Bundle bundle, ViewDataBinding binding) {
         super.onViewCreated(view, bundle, binding);
@@ -40,7 +30,7 @@ public class ArticleVM extends BaseVM {
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
-                setArticle(newArticle);
+//                setArticle(newArticle);
                 binding.setVariable(BR.articleItem, this.article);
             }
         }
@@ -55,11 +45,11 @@ public class ArticleVM extends BaseVM {
     public Article getArticle() {
         return article;
     }
-
+*//*
     public void setArticle(Article article) {
         this.article = article;
         notifyPropertyChanged(BR.viewModel);
-    }
+    }*//*
 
     @Override
     protected void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -97,5 +87,5 @@ public class ArticleVM extends BaseVM {
             articleRepository.insert(article);
             menuItem.setTitle(getString(R.string.pinned_text));
         }
-    }
+    }*/
 }

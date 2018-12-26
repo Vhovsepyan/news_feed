@@ -1,4 +1,4 @@
-package com.example.vahe.newsfeed.screens.viewholders;
+package com.example.vahe.newsfeed.view.viewholders;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,7 +7,8 @@ import com.example.vahe.newsfeed.R;
 import com.example.vahe.newsfeed.listener.BaseClickListener;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.model.BaseObject;
-import com.example.vahe.newsfeed.screens.home.PageInfoVM;
+import com.example.vahe.newsfeed.model.PageInfo;
+import com.example.vahe.newsfeed.view.home.ArticleListViewModel;
 
 public class ViewHolderProvider<T extends BaseObject> {
 
@@ -25,11 +26,37 @@ public class ViewHolderProvider<T extends BaseObject> {
             case BaseObject.OBJECT_TYPE_ARTICLE: {
                 return provideArticleViewHolder(inflater, viewGroup, baseClickListener, obj);
             }
+            case BaseObject.OBJECT_TYPE_PAGE_INFO:{
+                return providePageInfoViewHolder(inflater, viewGroup, baseClickListener, obj);
+            }
             default: {
                 return null;
             }
         }
 
+    }
+
+    @SuppressWarnings("unchecked")
+    private BaseRecyclerViewHolder<T> providePageInfoViewHolder(LayoutInflater inflater,
+                                                               ViewGroup viewGroup,
+                                                               BaseClickListener baseClickListener,
+                                                               T obj) {
+        PageInfo pageInfo = (PageInfo) obj;
+        switch (pageInfo.getContainerType()) {
+            case PageInfo.PageInfoContainerType.HEADER: {
+                return new ArticleVerticalViewHolder(
+                        inflater.inflate(R.layout.article_item_vertical_layout, viewGroup, false),
+                        baseClickListener);
+            }
+
+            default:
+            case PageInfo.PageInfoContainerType.BODY: {
+                return new ArticelStaggeredViewHolder(
+                        inflater.inflate(R.layout.article_item_pinterest_layout, viewGroup, false),
+                        baseClickListener);
+            }
+
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -40,17 +67,17 @@ public class ViewHolderProvider<T extends BaseObject> {
         Article article = (Article) obj;
         if (article.isPinned()) {
             return new ArticleHorizontalViewHolder(
-                    inflater.inflate(R.layout.article_item_horizontal_layout, viewGroup, false),
+                    inflater.inflate(R.layout.article_item_header_layout, viewGroup, false),
                     baseClickListener);
         } else {
             switch (viewMode) {
                 default:
-                case PageInfoVM.RecyclerViewSwitchModeDef.VERTICAL: {
+                case ArticleListViewModel.RecyclerViewSwitchModeDef.VERTICAL: {
                     return new ArticleVerticalViewHolder(
                             inflater.inflate(R.layout.article_item_vertical_layout, viewGroup, false),
                             baseClickListener);
                 }
-                case PageInfoVM.RecyclerViewSwitchModeDef.PINTEREST: {
+                case ArticleListViewModel.RecyclerViewSwitchModeDef.PINTEREST: {
                     return new ArticelStaggeredViewHolder(
                             inflater.inflate(R.layout.article_item_pinterest_layout, viewGroup, false),
                             baseClickListener);

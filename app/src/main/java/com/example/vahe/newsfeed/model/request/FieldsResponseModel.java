@@ -3,7 +3,7 @@ package com.example.vahe.newsfeed.model.request;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class FieldsRequestModel {
+public class FieldsResponseModel {
 
     @SerializedName("thumbnail")
     @Expose

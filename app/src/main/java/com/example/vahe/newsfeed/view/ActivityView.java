@@ -1,4 +1,4 @@
-package com.example.vahe.newsfeed.screens;
+package com.example.vahe.newsfeed.view;
 
 import androidx.navigation.NavController;
 

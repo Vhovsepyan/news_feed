@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.vahe.newsfeed.model.entity.ArticleTable;
-import com.example.vahe.newsfeed.model.request.ArticleRequestModel;
+import com.example.vahe.newsfeed.model.request.ArticleResponseModel;
 
 import java.util.Random;
 
@@ -55,7 +55,7 @@ public class Article implements BaseObject, Parcelable, Cloneable {
         this.thumbnailWidth = getRandomWidth();
     }
 
-    public Article(ArticleRequestModel requestModel) {
+    public Article(ArticleResponseModel requestModel) {
         this.id = requestModel.getId();
         this.type = requestModel.getType();
         this.sectionId = requestModel.getSectionId();

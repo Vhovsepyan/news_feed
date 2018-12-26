@@ -1,32 +1,22 @@
-package com.example.vahe.newsfeed.screens;
+package com.example.vahe.newsfeed.view;
 
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.R;
-import com.example.vahe.newsfeed.listener.OnDataReadyListener;
-import com.example.vahe.newsfeed.repository.ArticleRepository;
 import com.example.vahe.newsfeed.service.MyJobService;
-import com.example.vahe.newsfeed.utils.ArticleUrlBuilder;
-import com.example.vahe.newsfeed.utils.Constants;
-import com.example.vahe.newsfeed.utils.SharedPrefs;
-
-import javax.inject.Inject;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -35,8 +25,6 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity implements ActivityView {
 
     private NavController navController;
-    @Inject
-    public ArticleRepository articleRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

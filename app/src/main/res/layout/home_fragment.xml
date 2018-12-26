@@ -5,14 +5,13 @@
 
         <variable
             name="viewModel"
-            type="com.example.vahe.newsfeed.screens.home.PageInfoVM" />
+            type="com.example.vahe.newsfeed.view.home.ArticleListViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#1f000000">
-
         <TextView
             android:id="@+id/pinned_text_layout"
             visibility="@{viewModel.isPinnedVisible}"

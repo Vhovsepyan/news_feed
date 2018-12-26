@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.vahe.newsfeed.screens.info.ArticleVM" />
+            type="com.example.vahe.newsfeed.view.info.ArticleVM" />
     </data>
 
 

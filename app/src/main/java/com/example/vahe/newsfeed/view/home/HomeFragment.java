@@ -1,26 +1,29 @@
-package com.example.vahe.newsfeed.screens.home;
+package com.example.vahe.newsfeed.view.home;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.vahe.newsfeed.BR;
-import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.R;
 import com.example.vahe.newsfeed.databinding.HomeFragmentBinding;
-import com.example.vahe.newsfeed.screens.BaseFragment;
-import com.example.vahe.newsfeed.screens.BaseVM;
+import com.example.vahe.newsfeed.view.BaseFragment;
+import com.example.vahe.newsfeed.view.BaseVM;
+import com.example.vahe.newsfeed.utils.AppLog;
 import com.example.vahe.newsfeed.utils.Constants;
 
 public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
-    private PageInfoVM viewModel;
+    private ArticleListViewModel viewModel;
     private RecyclerView listRecyclerView;
     private RecyclerView staggeredRecyclerView;
 
@@ -36,20 +39,18 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
         setHasOptionsMenu(true);
     }
 
+    @Nullable
     @Override
-    protected BaseVM onCreateViewModel() {
-        viewModel = new PageInfoVM(getAppContext());
-        NewsFeedApp app = (NewsFeedApp) getAppContext();
-        app.appComponent().inject(viewModel);
-        viewModel.init();
-        return viewModel;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    protected BaseVM onBindViewModel(HomeFragmentBinding binding) {
-        listRecyclerView = binding.listRecyclerView;
-        staggeredRecyclerView = binding.staggeredRecyclerView;
-        return viewModel;
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel.getPageInfo().observe(this, pageInfo ->
+                AppLog.i(" onchange pageInfo = " + pageInfo )
+        );
     }
 
     @Override
@@ -63,20 +64,30 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
     }
 
     @Override
+    protected BaseVM onCreateViewModel() {
+        viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(ArticleListViewModel.class);
+        return viewModel;
+    }
+
+    @Override
+    protected BaseVM onBindViewModel(HomeFragmentBinding binding) {
+        listRecyclerView = binding.listRecyclerView;
+        staggeredRecyclerView = binding.staggeredRecyclerView;
+        return null;
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        viewModel.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        viewModel.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        viewModel.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
     }
 

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ArticleRequestModel {
+public class ArticleResponseModel {
 
     @SerializedName("id")
     @Expose
@@ -41,7 +41,7 @@ public class ArticleRequestModel {
 
     @SerializedName("fields")
     @Expose
-    private FieldsRequestModel fields;
+    private FieldsResponseModel fields;
 
     @SerializedName("isHosted")
     @Expose
@@ -119,11 +119,11 @@ public class ArticleRequestModel {
         this.apiUrl = apiUrl;
     }
 
-    public FieldsRequestModel getFields() {
+    public FieldsResponseModel getFields() {
         return fields;
     }
 
-    public void setFields(FieldsRequestModel fields) {
+    public void setFields(FieldsResponseModel fields) {
         this.fields = fields;
     }
 
@@ -154,7 +154,7 @@ public class ArticleRequestModel {
     @NonNull
     @Override
     public String toString() {
-        return "ArticleRequestModel{" +
+        return "ArticleResponseModel{" +
                 "id='" + id + '\'' +
                 ", type='" + type + '\'' +
                 ", sectionId='" + sectionId + '\'' +

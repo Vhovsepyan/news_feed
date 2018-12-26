@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="object"
+            type="com.example.vahe.newsfeed.model.PageInfo" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#1f000000">
+
+        <TextView
+            android:id="@+id/pinned_text_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding"
+            android:layout_marginTop="@dimen/half_padding"
+            android:text="@string/pinned_text"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/middle_text_size" />
+
+
+        <TextView
+            android:id="@+id/see_all_text_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding"
+            android:layout_marginTop="@dimen/half_padding"
+            android:layout_alignParentEnd="true"
+            android:text="@string/see_all_text"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/middle_text_size" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/pinned_news_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pinned_text_layout"
+            android:layout_marginStart="@dimen/half_padding"
+            android:layout_marginEnd="@dimen/half_padding" />
+
+
+        <View
+            android:id="@+id/divider_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/pinned_news_recycler_view"
+            android:layout_marginTop="@dimen/half_padding"
+            android:background="@color/color_grey" />
+
+    </RelativeLayout>
+</layout>
