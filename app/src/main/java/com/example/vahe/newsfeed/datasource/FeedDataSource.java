@@ -1,5 +1,6 @@
 package com.example.vahe.newsfeed.datasource;
 
+import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
@@ -9,7 +10,7 @@ import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.model.PageInfo;
 import com.example.vahe.newsfeed.model.request.ResponseModel;
-import com.example.vahe.newsfeed.utils.NetworkState;
+import com.example.vahe.newsfeed.model.NetworkState;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,9 +26,8 @@ public class FeedDataSource extends PageKeyedDataSource<Long, Article> {
     private MutableLiveData networkState;
     private MutableLiveData initialLoading;
 
-    public FeedDataSource(NewsFeedApp appController) {
-        this.appController = appController;
-
+    public FeedDataSource(Application appController) {
+        this.appController = (NewsFeedApp) appController;
         networkState = new MutableLiveData();
         initialLoading = new MutableLiveData();
     }

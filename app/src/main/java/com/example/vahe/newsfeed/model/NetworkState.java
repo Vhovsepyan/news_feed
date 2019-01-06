@@ -1,6 +1,6 @@
-package com.example.vahe.newsfeed.utils;
+package com.example.vahe.newsfeed.model;
 
-public class NetworkState {
+public class NetworkState implements BaseObject {
 
     public enum Status{
         RUNNING,

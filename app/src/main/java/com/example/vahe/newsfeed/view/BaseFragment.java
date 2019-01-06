@@ -1,6 +1,5 @@
 package com.example.vahe.newsfeed.view;
 
-import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -13,12 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vahe.newsfeed.NewsFeedApp;
+import com.example.vahe.newsfeed.view.home.ArticleListViewModel;
 
 import androidx.navigation.NavController;
 
 public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     private B binding;
-    private AndroidViewModel viewModel;
+    private BaseVM viewModel;
     private NavController navController;
     private NewsFeedApp appContext;
     private Bundle bundle;
@@ -32,21 +32,15 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        viewModel = onCreateViewModel();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        viewModel = onCreateViewModel();
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         bundle = getArguments();
-//        onBindViewModel(binding);
-        // this is for config changes
-        if (navController == null){
-            ActivityView activityView = (ActivityView) appContext;
-            navController = activityView.getNavController();
-        }
+        onBindViewModel(binding);
         return binding.getRoot();
     }
 
@@ -95,9 +89,9 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
         return navController;
     }
 
-    protected abstract AndroidViewModel onCreateViewModel();
+    protected abstract BaseVM onCreateViewModel();
 
-    protected abstract AndroidViewModel onBindViewModel(B binding);
+    protected abstract BaseVM onBindViewModel(B binding);
 
     public abstract int getVariable();
 

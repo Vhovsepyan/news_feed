@@ -1,18 +1,18 @@
 package com.example.vahe.newsfeed.datasource.factory;
 
+import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;
 
-import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.datasource.FeedDataSource;
 
 public class FeedDataFactory extends DataSource.Factory {
 
     private MutableLiveData<FeedDataSource> mutableLiveData;
     private FeedDataSource feedDataSource;
-    private NewsFeedApp app;
+    private Application app;
 
-    public FeedDataFactory(NewsFeedApp app) {
+    public FeedDataFactory(Application app) {
         this.app = app;
         this.mutableLiveData = new MutableLiveData<FeedDataSource>();
     }

@@ -5,7 +5,7 @@ import android.text.TextUtils;
 public class ArticleUrlBuilder {
     private final static String API_KEY = "api-key";
     private final static String API_VALUE = "5c732610-0d3a-43fa-828e-12ae6b8ebd85";
-    private final static String TARGET_URL = "http://content.guardianapis.com/search?";
+    private final static String TARGET_URL = "https://content.guardianapis.com/search?";
     private final String fromDate = "&from-date";
     private String toDate = "&to-date";
     private String page = "&page";

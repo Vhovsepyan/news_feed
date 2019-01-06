@@ -2,13 +2,15 @@ package com.example.vahe.newsfeed.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 
 import com.example.vahe.newsfeed.model.entity.ArticleTable;
 import com.example.vahe.newsfeed.model.request.ArticleResponseModel;
 
 import java.util.Random;
 
-public class Article implements BaseObject, Parcelable, Cloneable {
+public class Article implements BaseObject, Parcelable {
 
     private String id;
 
@@ -230,13 +232,30 @@ public class Article implements BaseObject, Parcelable, Cloneable {
         return r.nextInt(high - low) + low;
     }
 
+    public static DiffUtil.ItemCallback<Article> DIFF_CALLBACK = new DiffUtil.ItemCallback<Article>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
+            return oldItem.id == newItem.id;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Article oldItem, @NonNull Article newItem) {
+            return oldItem.equals(newItem);
+        }
+    };
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+
+        Article article = (Article) obj;
+        return article.id == this.id;
+    }
+
     @Override
     public int getObjectType() {
         return OBJECT_TYPE_ARTICLE;
     }
 
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
 }

@@ -1,44 +1,33 @@
 package com.example.vahe.newsfeed.view.home;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 
 import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.datasource.factory.FeedDataFactory;
 import com.example.vahe.newsfeed.listener.BaseClickListener;
-import com.example.vahe.newsfeed.listener.OnLoadMoreListener;
 import com.example.vahe.newsfeed.model.Article;
-import com.example.vahe.newsfeed.model.PageInfo;
 import com.example.vahe.newsfeed.repository.ArticleRepository;
-import com.example.vahe.newsfeed.utils.NetworkState;
-import com.example.vahe.newsfeed.view.adapter.BaseAdapter;
+import com.example.vahe.newsfeed.model.NetworkState;
 import com.example.vahe.newsfeed.view.BaseVM;
 import com.example.vahe.newsfeed.view.info.ArticleInfoFragment;
-import com.example.vahe.newsfeed.utils.AppLog;
-import com.example.vahe.newsfeed.utils.ArticleUrlBuilder;
-import com.example.vahe.newsfeed.utils.Constants;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
-public class ArticleListViewModel extends AndroidViewModel {
+public class ArticleListViewModel extends BaseVM {
 
     public ObservableBoolean isListViewMode = new ObservableBoolean(true);
     public ObservableBoolean isPinnedVisible = new ObservableBoolean(false);
-    public ObservableBoolean isProgessBarVisible = new ObservableBoolean(true);
-    public ObservableField<BaseAdapter> baseAdapterObservableField = new ObservableField<>();
+    public ObservableBoolean isProgessBarVisible = new ObservableBoolean(false);
 
     private Executor executor;
     private LiveData<NetworkState> networkState;
@@ -48,14 +37,14 @@ public class ArticleListViewModel extends AndroidViewModel {
     @Inject
     public ArticleRepository articleRepository;
 
-    public ArticleListViewModel(NewsFeedApp app) {
+    public ArticleListViewModel(Application app) {
         super(app);
-        app.appComponent().inject(this);
+        ((NewsFeedApp)app).appComponent().inject(this);
         init(app);
     }
 
 
-    private void init(NewsFeedApp app) {
+    private void init(Application app) {
         executor = Executors.newFixedThreadPool(5);
 
         FeedDataFactory feedDataFactory = new FeedDataFactory(app);
@@ -65,7 +54,7 @@ public class ArticleListViewModel extends AndroidViewModel {
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
-                        .setInitialLoadSizeHint(10)
+                        .setInitialLoadSizeHint(20)
                         .setPageSize(20).build();
 
         articleLiveData = (new LivePagedListBuilder(feedDataFactory, pagedListConfig))

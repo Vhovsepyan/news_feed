@@ -14,14 +14,10 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.R;
-import com.example.vahe.newsfeed.listener.OnListReadyListener;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.repository.ArticleRepository;
 import com.example.vahe.newsfeed.view.MainActivity;
 import com.example.vahe.newsfeed.utils.AppLog;
-import com.example.vahe.newsfeed.utils.ArticleUrlBuilder;
-import com.example.vahe.newsfeed.utils.Constants;
-import com.example.vahe.newsfeed.utils.SharedPrefs;
 
 import java.util.List;
 
@@ -67,19 +63,6 @@ public class MyJobService extends JobService {
         return false;
     }
 
-
-    private OnListReadyListener listReadyListener = new OnListReadyListener() {
-        @Override
-        public void onReady(List list) {
-            if (list != null && !list.isEmpty()) {
-                Article lastItem = (Article) list.get(0);
-                AppLog.i(" checkForNewArticles tempArticles.size == " + list.size());
-                if (!lastUpdateDate.equalsIgnoreCase(lastItem.getWebPublicationDate())) {
-                    createNotification(lastItem);
-                }
-            }
-        }
-    };
 
     private void createNotification(Article article) {
 // Create an explicit intent for an Activity in your app

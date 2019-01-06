@@ -24,7 +24,7 @@ public class RepositoryModule {
 
     @Provides
     @Singleton
-    public ArticleRepository provideNewsRepository(@Named("database")AppDatabase database, @Named("requestHelper")RequestHelper requestHelper){
-        return new ArticleRepositoryImpl(database.getArticleDao(), requestHelper);
+    public ArticleRepository provideNewsRepository(@Named("database")AppDatabase database){
+        return new ArticleRepositoryImpl(database.getArticleDao());
     }
 }

@@ -7,7 +7,6 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,25 +17,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.example.vahe.newsfeed.listener.EndlessRecyclerViewScrollListener;
-import com.example.vahe.newsfeed.listener.OnLoadMoreListener;
 
 public class BindingHelper {
-
-    @BindingAdapter({"initStaggeredRecyclerView", "loadMoreListener"})
-    public static void initStaggeredRecyclerView(RecyclerView recyclerView, RecyclerView.Adapter adapter, OnLoadMoreListener loadMoreListener) {
-        StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(llm);
-        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(llm) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                loadMoreListener.onLoadMore();
-            }
-        };
-        recyclerView.addOnScrollListener(scrollListener);
-        recyclerView.setAdapter(adapter);
-    }
 
 
     @BindingAdapter({"initHorizontalRecyclerView"})

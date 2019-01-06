@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements ActivityView {
         NavigationUI.setupWithNavController(toolbar, navController, drawer);
         NavigationUI.setupActionBarWithNavController(this, navController, drawer);
 
-        Intent startServiceIntent = new Intent(this, MyJobService.class);
-        startService(startServiceIntent);
+/*        Intent startServiceIntent = new Intent(this, MyJobService.class);
+        startService(startServiceIntent);*/
     }
 
     @Override
