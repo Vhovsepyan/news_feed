@@ -47,10 +47,15 @@ dependencies {
 
     implementation "android.arch.lifecycle:livedata:$rootProject.ext.room_version"
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.ext.room_version"
+    implementation "android.arch.lifecycle:extensions:$rootProject.ext.room_version"
 
 
     implementation "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofitVersion"
+
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okhttpVersion"
+
 
     implementation "com.google.dagger:dagger-android:${rootProject.ext.dagger_version}"
     annotationProcessor "com.google.dagger:dagger-android-processor:${rootProject.ext.dagger_version}"
@@ -59,4 +64,5 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:${rootProject.ext.glide_version}"
     annotationProcessor "com.github.bumptech.glide:compiler:${rootProject.ext.glide_version}"
 
+    implementation "android.arch.paging:runtime:1.0.1"
 }

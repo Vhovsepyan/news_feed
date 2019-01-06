@@ -7,11 +7,15 @@ import com.example.vahe.newsfeed.di.DaggerAppComponent;
 import com.example.vahe.newsfeed.di.DatabaseModule;
 import com.example.vahe.newsfeed.di.RepositoryModule;
 import com.example.vahe.newsfeed.di.RequestModule;
+import com.example.vahe.newsfeed.http.RestApi;
+import com.example.vahe.newsfeed.http.RestApiFactory;
 import com.example.vahe.newsfeed.utils.SharedPrefs;
 
 public class NewsFeedApp extends Application {
 
     private AppComponent appComponent;
+
+    private RestApi restApi;
 
     @Override
     public void onCreate() {
@@ -27,5 +31,12 @@ public class NewsFeedApp extends Application {
 
     public AppComponent appComponent() {
         return appComponent;
+    }
+
+    public RestApi getRestApi() {
+        if(restApi == null) {
+            restApi = RestApiFactory.create();
+        }
+        return restApi;
     }
 }

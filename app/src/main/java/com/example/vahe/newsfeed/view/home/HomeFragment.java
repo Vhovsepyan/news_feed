@@ -1,5 +1,6 @@
 package com.example.vahe.newsfeed.view.home;
 
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
     private ArticleListViewModel viewModel;
     private RecyclerView listRecyclerView;
     private RecyclerView staggeredRecyclerView;
+    private HomeFragmentBinding binding;
 
     @Override
     public void onAttach(Context context) {
@@ -48,9 +50,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getPageInfo().observe(this, pageInfo ->
-                AppLog.i(" onchange pageInfo = " + pageInfo )
-        );
     }
 
     @Override
@@ -64,7 +63,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
     }
 
     @Override
-    protected BaseVM onCreateViewModel() {
+    protected AndroidViewModel onCreateViewModel() {
         viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication()).create(ArticleListViewModel.class);
         return viewModel;
     }
@@ -72,7 +71,6 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
     @Override
     protected BaseVM onBindViewModel(HomeFragmentBinding binding) {
         listRecyclerView = binding.listRecyclerView;
-        staggeredRecyclerView = binding.staggeredRecyclerView;
         return null;
     }
 

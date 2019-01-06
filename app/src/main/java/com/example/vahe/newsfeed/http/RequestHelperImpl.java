@@ -16,7 +16,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RequestHelperImpl<T extends BaseObject> implements RequestHelper {
-    private RetrofitAPIService apiService;
+    private RestApi apiService;
     private Retrofit retrofit;
     private static final String BASE_URL = "https://content.guardianapis.com/";
 
@@ -25,10 +25,10 @@ public class RequestHelperImpl<T extends BaseObject> implements RequestHelper {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        apiService = retrofit.create(RetrofitAPIService.class);
+        apiService = retrofit.create(RestApi.class);
     }
 
-    @Override
+    /*@Override
     public LiveData<PageInfo> getPageInfo() {
         final MutableLiveData<PageInfo> data = new MutableLiveData<>();
         apiService.getPageInfo().enqueue(new Callback<ResponseModel>() {
@@ -54,5 +54,5 @@ public class RequestHelperImpl<T extends BaseObject> implements RequestHelper {
             }
          });
         return data;
-    }
+    }*/
 }

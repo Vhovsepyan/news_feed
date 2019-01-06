@@ -9,6 +9,5 @@ import com.example.vahe.newsfeed.model.PageInfo;
 
 public interface ArticleRepository extends BaseRepository<Article> {
 
-    LiveData<PageInfo> getPageInfoFromApi(String url);
 
 }

@@ -23,21 +23,6 @@ import com.example.vahe.newsfeed.listener.OnLoadMoreListener;
 
 public class BindingHelper {
 
-    @BindingAdapter({"initVerticalRecyclerView", "loadMoreListener"})
-    public static void initVerticalRecyclerView(RecyclerView recyclerView, RecyclerView.Adapter adapter, OnLoadMoreListener loadMoreListener) {
-        LinearLayoutManager llm = new LinearLayoutManager(recyclerView.getContext());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(llm);
-        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(llm) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                loadMoreListener.onLoadMore();
-            }
-        };
-        recyclerView.addOnScrollListener(scrollListener);
-        recyclerView.setAdapter(adapter);
-    }
-
     @BindingAdapter({"initStaggeredRecyclerView", "loadMoreListener"})
     public static void initStaggeredRecyclerView(RecyclerView recyclerView, RecyclerView.Adapter adapter, OnLoadMoreListener loadMoreListener) {
         StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);

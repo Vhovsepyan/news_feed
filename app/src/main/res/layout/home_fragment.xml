@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#1f000000">
-        <TextView
+        <!--<TextView
             android:id="@+id/pinned_text_layout"
             visibility="@{viewModel.isPinnedVisible}"
             android:layout_width="wrap_content"
@@ -41,17 +41,16 @@
             android:layout_height="1dp"
             android:layout_below="@+id/pinned_news_recycler_view"
             android:layout_marginTop="@dimen/half_padding"
-            android:background="@color/color_grey" />
+            android:background="@color/color_grey" />-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_recycler_view"
-            initVerticalRecyclerView="@{viewModel.baseAdapterObservableField}"
-            loadMoreListener="@{viewModel.loadMoreListener}"
             visibility="@{viewModel.isListViewMode}"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/divider_line" />
 
+<!--
         <android.support.v7.widget.RecyclerView
             android:id="@+id/staggered_recycler_view"
             initStaggeredRecyclerView="@{viewModel.baseAdapterObservableField}"
@@ -60,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/divider_line" />
+-->
 
         <ProgressBar
             android:id="@+id/indeterminateBar"

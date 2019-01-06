@@ -1,18 +1,24 @@
 package com.example.vahe.newsfeed.view.home;
 
 import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Transformations;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.annotation.IntDef;
 
 import com.example.vahe.newsfeed.NewsFeedApp;
+import com.example.vahe.newsfeed.datasource.factory.FeedDataFactory;
 import com.example.vahe.newsfeed.listener.BaseClickListener;
 import com.example.vahe.newsfeed.listener.OnLoadMoreListener;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.model.PageInfo;
 import com.example.vahe.newsfeed.repository.ArticleRepository;
+import com.example.vahe.newsfeed.utils.NetworkState;
 import com.example.vahe.newsfeed.view.adapter.BaseAdapter;
 import com.example.vahe.newsfeed.view.BaseVM;
 import com.example.vahe.newsfeed.view.info.ArticleInfoFragment;
@@ -22,30 +28,49 @@ import com.example.vahe.newsfeed.utils.Constants;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
-public class ArticleListViewModel extends BaseVM {
+public class ArticleListViewModel extends AndroidViewModel {
 
-    private final LiveData<PageInfo> pageInfoLiveData;
     public ObservableBoolean isListViewMode = new ObservableBoolean(true);
     public ObservableBoolean isPinnedVisible = new ObservableBoolean(false);
     public ObservableBoolean isProgessBarVisible = new ObservableBoolean(true);
     public ObservableField<BaseAdapter> baseAdapterObservableField = new ObservableField<>();
-    private CopyOnWriteArrayList<Article> articles = new CopyOnWriteArrayList<>();
-    private LiveData<List<Article>> pinnedArticles;
-    public BaseAdapter adapter;
-    public BaseAdapter pinnedAdapter;
-    private PageInfo pageInfo;
+
+    private Executor executor;
+    private LiveData<NetworkState> networkState;
+    private LiveData<PagedList<Article>> articleLiveData;
+
 
     @Inject
     public ArticleRepository articleRepository;
 
-    public ArticleListViewModel(Application app) {
+    public ArticleListViewModel(NewsFeedApp app) {
         super(app);
-        NewsFeedApp newsFeedApp = (NewsFeedApp) app;
-        newsFeedApp.appComponent().inject(this);
-        pageInfoLiveData = articleRepository.getPageInfoFromApi("");
+        app.appComponent().inject(this);
+        init(app);
+    }
+
+
+    private void init(NewsFeedApp app) {
+        executor = Executors.newFixedThreadPool(5);
+
+        FeedDataFactory feedDataFactory = new FeedDataFactory(app);
+        networkState = Transformations.switchMap(feedDataFactory.getMutableLiveData(),
+                dataSource -> dataSource.getNetworkState());
+
+        PagedList.Config pagedListConfig =
+                (new PagedList.Config.Builder())
+                        .setEnablePlaceholders(false)
+                        .setInitialLoadSizeHint(10)
+                        .setPageSize(20).build();
+
+        articleLiveData = (new LivePagedListBuilder(feedDataFactory, pagedListConfig))
+                .setFetchExecutor(executor)
+                .build();
     }
 
     @IntDef({RecyclerViewSwitchModeDef.VERTICAL, RecyclerViewSwitchModeDef.PINTEREST})
@@ -54,17 +79,14 @@ public class ArticleListViewModel extends BaseVM {
         int PINTEREST = 1;
     }
 
-    public OnLoadMoreListener loadMoreListener = new OnLoadMoreListener() {
-        @Override
-        public void onLoadMore() {
-            String url = new ArticleUrlBuilder()
-                    .addPage(pageInfo.getCurrentPage() + 1)
-                    .addUseDate(Constants.USE_DATE_PUBLISHED)
-                    .addOrderDate(Constants.ORDER_DATE_PUBLISHED)
-                    .build();
-            AppLog.i(" load   More ");
-        }
-    };
+
+    public LiveData<NetworkState> getNetworkState() {
+        return networkState;
+    }
+
+    public LiveData<PagedList<Article>> getArticleLiveData() {
+        return articleLiveData;
+    }
 
     private BaseClickListener baseClickListener = obj -> {
         Article article = (Article) obj;
@@ -72,8 +94,4 @@ public class ArticleListViewModel extends BaseVM {
         bundle.putParcelable(ArticleInfoFragment.BUNDLE_ARTICLE_ID_KEY_INFO, article);
 //        getNavController().navigate(R.id.infoFragment, bundle);
     };
-
-    public LiveData<PageInfo> getPageInfo(){
-        return pageInfoLiveData;
-    }
 }

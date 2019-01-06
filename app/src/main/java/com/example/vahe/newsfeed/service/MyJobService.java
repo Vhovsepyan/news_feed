@@ -47,7 +47,7 @@ public class MyJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
-        handler.postDelayed(() -> {
+        /*handler.postDelayed(() -> {
             AppLog.i(" onStartJob ");
             lastUpdateDate = SharedPrefs.getInstance()
                     .getString(Constants.PREF_LAST_PUBLICATION_DATE, "");
@@ -58,7 +58,7 @@ public class MyJobService extends JobService {
                     .addFromDate(lastUpdateDate)
                     .build();
             repository.getArticlesFromApi(url, listReadyListener);
-        }, 30000);
+        }, 30000);*/
         return false;
     }
 

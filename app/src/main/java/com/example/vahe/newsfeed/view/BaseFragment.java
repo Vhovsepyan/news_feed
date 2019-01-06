@@ -1,5 +1,6 @@
 package com.example.vahe.newsfeed.view;
 
+import android.arch.lifecycle.AndroidViewModel;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -17,35 +18,35 @@ import androidx.navigation.NavController;
 
 public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     private B binding;
-    private BaseVM viewModel;
+    private AndroidViewModel viewModel;
     private NavController navController;
-    private Context context;
+    private NewsFeedApp appContext;
     private Bundle bundle;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context = context;
+        this.appContext = (NewsFeedApp) context.getApplicationContext();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = onCreateViewModel();
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        viewModel = onCreateViewModel();
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         bundle = getArguments();
-        onBindViewModel(binding);
+//        onBindViewModel(binding);
         // this is for config changes
         if (navController == null){
-            ActivityView activityView = (ActivityView) context;
+            ActivityView activityView = (ActivityView) appContext;
             navController = activityView.getNavController();
         }
-        viewModel.setNavController(navController);
         return binding.getRoot();
     }
 
@@ -87,16 +88,16 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
     }
 
     protected NewsFeedApp getApplication() {
-        return (NewsFeedApp) context.getApplicationContext();
+        return appContext;
     }
 
     protected NavController getNavController() {
         return navController;
     }
 
-    protected abstract BaseVM onCreateViewModel();
+    protected abstract AndroidViewModel onCreateViewModel();
 
-    protected abstract BaseVM onBindViewModel(B binding);
+    protected abstract AndroidViewModel onBindViewModel(B binding);
 
     public abstract int getVariable();
 

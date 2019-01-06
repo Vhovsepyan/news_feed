@@ -32,12 +32,6 @@ public class ArticleRepositoryImpl<T extends BaseObject> implements ArticleRepos
     }
 
     @Override
-    public LiveData<PageInfo> getPageInfoFromApi(String url) {
-        return requestHelper.getPageInfo();
-    }
-
-
-    @Override
     public void insert(Article items) {
         getExecutor(ExecutorType.DB_COMMUNICATION).execute(() -> {
             articleDao.insert(new ArticleTable(items));
