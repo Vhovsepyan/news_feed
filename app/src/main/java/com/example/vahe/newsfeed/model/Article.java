@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 
 import com.example.vahe.newsfeed.model.entity.ArticleTable;
-import com.example.vahe.newsfeed.model.request.ArticleResponseModel;
+import com.example.vahe.newsfeed.model.request.ArticleContentModel;
 
 import java.util.Random;
 
@@ -57,7 +57,7 @@ public class Article implements BaseObject, Parcelable {
         this.thumbnailWidth = getRandomWidth();
     }
 
-    public Article(ArticleResponseModel requestModel) {
+    public Article(ArticleContentModel requestModel) {
         this.id = requestModel.getId();
         this.type = requestModel.getType();
         this.sectionId = requestModel.getSectionId();

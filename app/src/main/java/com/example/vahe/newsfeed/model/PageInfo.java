@@ -2,7 +2,7 @@ package com.example.vahe.newsfeed.model;
 
 import android.support.annotation.IntDef;
 
-import com.example.vahe.newsfeed.model.request.ArticleResponseModel;
+import com.example.vahe.newsfeed.model.request.ArticleContentModel;
 import com.example.vahe.newsfeed.model.request.PageInfoResponseModel;
 
 import java.util.ArrayList;
@@ -43,15 +43,15 @@ public class PageInfo implements BaseObject {
         this.pages = pageInfoResponseModel.getPages();
         this.orderBy = pageInfoResponseModel.getOrderBy();
         this.containerType = PageInfoContainerType.BODY;
-        initNews(pageInfoResponseModel.getArticleResponseModels());
+        initNews(pageInfoResponseModel.getArticleContentModels());
 
     }
 
-    private void initNews(List<ArticleResponseModel> articleResponseModels) {
+    private void initNews(List<ArticleContentModel> articleContentModels) {
         articles = new ArrayList<>();
-        if (articleResponseModels != null){
-            for (int i = 0; i < articleResponseModels.size(); i++) {
-                ArticleResponseModel requestModel = articleResponseModels.get(i);
+        if (articleContentModels != null){
+            for (int i = 0; i < articleContentModels.size(); i++) {
+                ArticleContentModel requestModel = articleContentModels.get(i);
                 Article article = new Article(requestModel);
                 articles.add(article);
             }

@@ -3,17 +3,17 @@ package com.example.vahe.newsfeed.model.request;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ResponseModel {
+public class BaseResponseModel<T> {
 
     @SerializedName("response")
     @Expose
-    private PageInfoResponseModel response;
+    private T response;
 
-    public PageInfoResponseModel getResponse() {
+    public T getResponse() {
         return response;
     }
 
-    public void setResponse(PageInfoResponseModel response) {
+    public void setResponse(T response) {
         this.response = response;
     }
 

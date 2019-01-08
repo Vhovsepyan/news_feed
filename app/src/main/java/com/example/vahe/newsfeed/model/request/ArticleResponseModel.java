@@ -1,171 +1,57 @@
 package com.example.vahe.newsfeed.model.request;
 
-import android.support.annotation.NonNull;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class ArticleResponseModel {
 
-    @SerializedName("id")
+    @SerializedName("status")
     @Expose
-    private String id;
+    private String status;
 
-    @SerializedName("type")
+    @SerializedName("userTier")
     @Expose
-    private String type;
+    private String userTier;
 
-    @SerializedName("sectionId")
+    @SerializedName("total")
     @Expose
-    private String sectionId;
+    private Integer total;
 
-    @SerializedName("sectionName")
+    @SerializedName("content")
     @Expose
-    private String sectionName;
+    private ArticleContentModel content;
 
-    @SerializedName("webPublicationDate")
-    @Expose
-    private String webPublicationDate;
-
-    @SerializedName("webTitle")
-    @Expose
-    private String webTitle;
-
-    @SerializedName("webUrl")
-    @Expose
-    private String webUrl;
-
-    @SerializedName("apiUrl")
-    @Expose
-    private String apiUrl;
-
-    @SerializedName("fields")
-    @Expose
-    private FieldsResponseModel fields;
-
-    @SerializedName("isHosted")
-    @Expose
-    private Boolean isHosted;
-
-    @SerializedName("pillarId")
-    @Expose
-    private String pillarId;
-
-    @SerializedName("pillarName")
-    @Expose
-    private String pillarName;
-
-    public String getId() {
-        return id;
+    public String getStatus() {
+        return status;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getType() {
-        return type;
+    public String getUserTier() {
+        return userTier;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setUserTier(String userTier) {
+        this.userTier = userTier;
     }
 
-    public String getSectionId() {
-        return sectionId;
+    public Integer getTotal() {
+        return total;
     }
 
-    public void setSectionId(String sectionId) {
-        this.sectionId = sectionId;
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
-    public String getSectionName() {
-        return sectionName;
+    public ArticleContentModel getContent() {
+        return content;
     }
 
-    public void setSectionName(String sectionName) {
-        this.sectionName = sectionName;
+    public void setContent(ArticleContentModel content) {
+        this.content = content;
     }
 
-    public String getWebPublicationDate() {
-        return webPublicationDate;
-    }
-
-    public void setWebPublicationDate(String webPublicationDate) {
-        this.webPublicationDate = webPublicationDate;
-    }
-
-    public String getWebTitle() {
-        return webTitle;
-    }
-
-    public void setWebTitle(String webTitle) {
-        this.webTitle = webTitle;
-    }
-
-    public String getWebUrl() {
-        return webUrl;
-    }
-
-    public void setWebUrl(String webUrl) {
-        this.webUrl = webUrl;
-    }
-
-    public String getApiUrl() {
-        return apiUrl;
-    }
-
-    public void setApiUrl(String apiUrl) {
-        this.apiUrl = apiUrl;
-    }
-
-    public FieldsResponseModel getFields() {
-        return fields;
-    }
-
-    public void setFields(FieldsResponseModel fields) {
-        this.fields = fields;
-    }
-
-    public Boolean getIsHosted() {
-        return isHosted;
-    }
-
-    public void setIsHosted(Boolean isHosted) {
-        this.isHosted = isHosted;
-    }
-
-    public String getPillarId() {
-        return pillarId;
-    }
-
-    public void setPillarId(String pillarId) {
-        this.pillarId = pillarId;
-    }
-
-    public String getPillarName() {
-        return pillarName;
-    }
-
-    public void setPillarName(String pillarName) {
-        this.pillarName = pillarName;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "ArticleResponseModel{" +
-                "id='" + id + '\'' +
-                ", type='" + type + '\'' +
-                ", sectionId='" + sectionId + '\'' +
-                ", sectionName='" + sectionName + '\'' +
-                ", webPublicationDate='" + webPublicationDate + '\'' +
-                ", webTitle='" + webTitle + '\'' +
-                ", webUrl='" + webUrl + '\'' +
-                ", apiUrl='" + apiUrl + '\'' +
-                ", isHosted=" + isHosted +
-                ", pillarId='" + pillarId + '\'' +
-                ", pillarName='" + pillarName + '\'' +
-                '}';
-    }
 }
+

@@ -18,12 +18,13 @@ import android.view.ViewGroup;
 import com.example.vahe.newsfeed.BR;
 import com.example.vahe.newsfeed.R;
 import com.example.vahe.newsfeed.databinding.HomeFragmentBinding;
+import com.example.vahe.newsfeed.listener.BaseClickListener;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.utils.Constants;
 import com.example.vahe.newsfeed.view.BaseFragment;
 import com.example.vahe.newsfeed.view.BaseVM;
 import com.example.vahe.newsfeed.view.adapter.ArticleAdapter;
-import com.example.vahe.newsfeed.view.adapter.BaseAdapter;
+import com.example.vahe.newsfeed.view.info.ArticleInfoFragment;
 
 public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
     private ArticleListViewModel viewModel;
@@ -52,23 +53,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        adapter = new ArticleAdapter();
+        adapter = new ArticleAdapter(baseClickListener);
 
-
-        /*
-         * Step 4: When a new page is available, we call submitList() method
-         * of the PagedListAdapter class
-         *
-         * */
         viewModel.getArticleLiveData().observe(this, pagedList -> {
             adapter.submitList(pagedList);
         });
 
-        /*
-         * Step 5: When a new page is available, we call submitList() method
-         * of the PagedListAdapter class
-         *
-         * */
         viewModel.getNetworkState().observe(this, networkState -> {
             adapter.setNetworkState(networkState);
         });
@@ -77,6 +67,12 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
         listRecyclerView.setAdapter(adapter);
 
     }
+
+    private BaseClickListener baseClickListener = obj -> {
+        Bundle bundle = new Bundle();
+        bundle.putString(ArticleInfoFragment.BUNDLE_ARTICLE_ID_KEY_INFO, ((Article)obj).getId());
+        getNavController().navigate(R.id.infoFragment, bundle);
+    };
 
     @Override
     public int getVariable() {

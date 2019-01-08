@@ -6,17 +6,14 @@ import android.arch.lifecycle.Transformations;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.databinding.ObservableBoolean;
-import android.os.Bundle;
 import android.support.annotation.IntDef;
 
 import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.datasource.factory.FeedDataFactory;
-import com.example.vahe.newsfeed.listener.BaseClickListener;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.repository.ArticleRepository;
 import com.example.vahe.newsfeed.model.NetworkState;
 import com.example.vahe.newsfeed.view.BaseVM;
-import com.example.vahe.newsfeed.view.info.ArticleInfoFragment;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -40,14 +37,14 @@ public class ArticleListViewModel extends BaseVM {
     public ArticleListViewModel(Application app) {
         super(app);
         ((NewsFeedApp)app).appComponent().inject(this);
-        init(app);
+        init();
     }
 
 
-    private void init(Application app) {
+    private void init() {
         executor = Executors.newFixedThreadPool(5);
 
-        FeedDataFactory feedDataFactory = new FeedDataFactory(app);
+        FeedDataFactory feedDataFactory = new FeedDataFactory(articleRepository);
         networkState = Transformations.switchMap(feedDataFactory.getMutableLiveData(),
                 dataSource -> dataSource.getNetworkState());
 
@@ -77,10 +74,4 @@ public class ArticleListViewModel extends BaseVM {
         return articleLiveData;
     }
 
-    private BaseClickListener baseClickListener = obj -> {
-        Article article = (Article) obj;
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(ArticleInfoFragment.BUNDLE_ARTICLE_ID_KEY_INFO, article);
-//        getNavController().navigate(R.id.infoFragment, bundle);
-    };
 }

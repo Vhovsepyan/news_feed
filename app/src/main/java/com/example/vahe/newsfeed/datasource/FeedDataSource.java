@@ -1,16 +1,16 @@
 package com.example.vahe.newsfeed.datasource;
 
-import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.model.Article;
-import com.example.vahe.newsfeed.model.PageInfo;
-import com.example.vahe.newsfeed.model.request.ResponseModel;
 import com.example.vahe.newsfeed.model.NetworkState;
+import com.example.vahe.newsfeed.model.PageInfo;
+import com.example.vahe.newsfeed.model.request.BaseResponseModel;
+import com.example.vahe.newsfeed.model.request.PageInfoResponseModel;
+import com.example.vahe.newsfeed.repository.ArticleRepository;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,13 +21,13 @@ public class FeedDataSource extends PageKeyedDataSource<Long, Article> {
 
     private static final String TAG = FeedDataSource.class.getSimpleName();
 
-    private NewsFeedApp appController;
+    private ArticleRepository articleRepository;
 
     private MutableLiveData networkState;
     private MutableLiveData initialLoading;
 
-    public FeedDataSource(Application appController) {
-        this.appController = (NewsFeedApp) appController;
+    public FeedDataSource(ArticleRepository articleRepository) {
+        this.articleRepository = articleRepository;
         networkState = new MutableLiveData();
         initialLoading = new MutableLiveData();
     }
@@ -48,11 +48,11 @@ public class FeedDataSource extends PageKeyedDataSource<Long, Article> {
         initialLoading.postValue(NetworkState.LOADING);
         networkState.postValue(NetworkState.LOADING);
 
-        appController.getRestApi().getPageInfo(1, params.requestedLoadSize)
-                .enqueue(new Callback<ResponseModel>() {
+        articleRepository.getNewsPageInfo(1, params.requestedLoadSize)
+                .enqueue(new Callback<BaseResponseModel<PageInfoResponseModel>>() {
                     @Override
-                    public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                        if(response.isSuccessful()) {
+                    public void onResponse(Call<BaseResponseModel<PageInfoResponseModel>> call, Response<BaseResponseModel<PageInfoResponseModel>> response) {
+                        if (response.isSuccessful()) {
                             PageInfo pageInfo = new PageInfo(response.body().getResponse());
                             callback.onResult(pageInfo.getArticles(), null, 2l);
                             initialLoading.postValue(NetworkState.LOADED);
@@ -65,7 +65,7 @@ public class FeedDataSource extends PageKeyedDataSource<Long, Article> {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseModel> call, Throwable t) {
+                    public void onFailure(Call<BaseResponseModel<PageInfoResponseModel>> call, Throwable t) {
                         String errorMessage = t == null ? "unknown error" : t.getMessage();
                         networkState.postValue(new NetworkState(NetworkState.Status.FAILED, errorMessage));
                     }
@@ -86,22 +86,23 @@ public class FeedDataSource extends PageKeyedDataSource<Long, Article> {
 
         networkState.postValue(NetworkState.LOADING);
 
-        appController.getRestApi().getPageInfo(params.key, params.requestedLoadSize).enqueue(new Callback<ResponseModel>() {
+        articleRepository.getNewsPageInfo(params.key, params.requestedLoadSize).enqueue(new Callback<BaseResponseModel<PageInfoResponseModel>>() {
             @Override
-            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                if(response.isSuccessful()) {
+            public void onResponse(Call<BaseResponseModel<PageInfoResponseModel>> call, Response<BaseResponseModel<PageInfoResponseModel>> response) {
+                if (response.isSuccessful()) {
                     assert response.body() != null;
                     long total = response.body().getResponse().getTotal();
-                    long nextKey = (params.key == total) ? null : params.key+1;
+                    long nextKey = (params.key == total) ? null : params.key + 1;
                     PageInfo pageInfo = new PageInfo(response.body().getResponse());
-                    callback.onResult(pageInfo.getArticles(),  nextKey);
+                    callback.onResult(pageInfo.getArticles(), nextKey);
                     networkState.postValue(NetworkState.LOADED);
 
-                } else networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
+                } else
+                    networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
             }
 
             @Override
-            public void onFailure(Call<ResponseModel> call, Throwable t) {
+            public void onFailure(Call<BaseResponseModel<PageInfoResponseModel>> call, Throwable t) {
                 String errorMessage = t == null ? "unknown error" : t.getMessage();
                 networkState.postValue(new NetworkState(NetworkState.Status.FAILED, errorMessage));
             }

@@ -57,6 +57,9 @@ public class BindingHelper {
 
     @BindingAdapter({"setHTMLText"})
     public static void setText(TextView textView, String text) {
+        if (text == null){
+            text = "";
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             textView.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_COMPACT));
         } else {

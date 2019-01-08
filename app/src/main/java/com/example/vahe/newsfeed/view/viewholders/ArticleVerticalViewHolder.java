@@ -19,6 +19,7 @@ public class ArticleVerticalViewHolder extends BaseRecyclerViewHolder {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void bind(BaseObject object) {
         Article article = (Article) object;
         getBinding().setVariable(BR.item, article);

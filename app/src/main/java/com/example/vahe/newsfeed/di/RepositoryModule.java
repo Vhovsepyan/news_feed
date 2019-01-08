@@ -1,7 +1,6 @@
 package com.example.vahe.newsfeed.di;
 
 import com.example.vahe.newsfeed.dao.AppDatabase;
-import com.example.vahe.newsfeed.http.RequestHelper;
 import com.example.vahe.newsfeed.repository.ArticleRepository;
 import com.example.vahe.newsfeed.repository.ArticleRepositoryImpl;
 
@@ -13,8 +12,7 @@ import dagger.Provides;
 
 @Module(
         includes = {
-                DatabaseModule.class,
-                RequestModule.class
+                DatabaseModule.class
         }
         )
 public class RepositoryModule {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vahe.newsfeed.R;
+import com.example.vahe.newsfeed.listener.BaseClickListener;
 import com.example.vahe.newsfeed.model.Article;
 import com.example.vahe.newsfeed.model.NetworkState;
 import com.example.vahe.newsfeed.view.viewholders.ArticleVerticalViewHolder;
@@ -20,9 +21,11 @@ public class ArticleAdapter extends PagedListAdapter<Article, BaseRecyclerViewHo
     private static final int TYPE_ITEM = 1;
 
     private NetworkState networkState;
+    private BaseClickListener baseClickListener;
 
-    public ArticleAdapter() {
+    public ArticleAdapter(BaseClickListener baseClickListener) {
         super(Article.DIFF_CALLBACK);
+        this.baseClickListener = baseClickListener;
     }
 
     @NonNull
@@ -36,7 +39,7 @@ public class ArticleAdapter extends PagedListAdapter<Article, BaseRecyclerViewHo
 
         } else {
             View view = layoutInflater.inflate(R.layout.article_item_vertical_layout, viewGroup, false);
-            ArticleVerticalViewHolder viewHolder = new ArticleVerticalViewHolder(view , null);
+            ArticleVerticalViewHolder viewHolder = new ArticleVerticalViewHolder(view , baseClickListener);
             return viewHolder;
         }
     }

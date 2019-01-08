@@ -41,6 +41,7 @@ public abstract class BaseFragment<B extends ViewDataBinding> extends Fragment {
         binding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
         bundle = getArguments();
         onBindViewModel(binding);
+        navController = ((MainActivity)getActivity()).getNavController();
         return binding.getRoot();
     }
 

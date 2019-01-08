@@ -43,7 +43,7 @@ public class PageInfoResponseModel {
 
     @SerializedName("results")
     @Expose
-    private List<ArticleResponseModel> articleResponseModels = null;
+    private List<ArticleContentModel> articleContentModels = null;
 
     public String getStatus() {
         return status;
@@ -109,12 +109,12 @@ public class PageInfoResponseModel {
         this.orderBy = orderBy;
     }
 
-    public List<ArticleResponseModel> getArticleResponseModels() {
-        return articleResponseModels;
+    public List<ArticleContentModel> getArticleContentModels() {
+        return articleContentModels;
     }
 
-    public void setArticleResponseModels(List<ArticleResponseModel> articleResponseModels) {
-        this.articleResponseModels = articleResponseModels;
+    public void setArticleContentModels(List<ArticleContentModel> articleContentModels) {
+        this.articleContentModels = articleContentModels;
     }
 
     @NonNull
@@ -129,7 +129,7 @@ public class PageInfoResponseModel {
                 ", currentPage=" + currentPage +
                 ", pages=" + pages +
                 ", orderBy='" + orderBy + '\'' +
-                ", articleResponseModels=" + articleResponseModels +
+                ", articleContentModels=" + articleContentModels +
                 '}';
     }
 }
