@@ -10,18 +10,11 @@ import com.example.vahe.newsfeed.utils.SharedPrefs;
 
 import java.util.concurrent.Executor;
 
-import androidx.navigation.NavController;
-
 public abstract class BaseVM extends AndroidViewModel {
 
-    private NavController navController;
 
     public BaseVM(@NonNull Application application) {
         super(application);
-    }
-
-    public void setNavController(NavController navController) {
-        this.navController = navController;
     }
 
     protected Executor getExecutor(@ExecutorType int type) {

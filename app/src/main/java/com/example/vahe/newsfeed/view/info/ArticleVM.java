@@ -2,6 +2,8 @@ package com.example.vahe.newsfeed.view.info;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 
 import com.example.vahe.newsfeed.NewsFeedApp;
 import com.example.vahe.newsfeed.model.Article;
@@ -14,19 +16,26 @@ public class ArticleVM extends BaseVM {
 
     @Inject
     public ArticleRepository articleRepository;
-    public Article article;
-    private LiveData<Article> articleLiveData ;
+    private LiveData<Article> articleLiveData;
+
+    public ObservableBoolean isProgessBarVisible = new ObservableBoolean(true);
+    public ObservableField<Article> article = new ObservableField<>();
 
     public ArticleVM(Application app) {
         super(app);
-        ((NewsFeedApp)app).appComponent().inject(this);
+        ((NewsFeedApp) app).appComponent().inject(this);
     }
 
-    public void init(String id, String showFields, String apiKey){
-        articleLiveData = articleRepository.getPageById(id, showFields, apiKey);
+    public void init(String apiUrl, String showFields) {
+        articleLiveData = articleRepository.getPageByApiUrl(apiUrl, showFields);
     }
 
     public LiveData<Article> getArticleLiveData() {
         return articleLiveData;
+    }
+
+    public void setArticle(Article article) {
+        this.article.set(article);
+        isProgessBarVisible.set(false);
     }
 }

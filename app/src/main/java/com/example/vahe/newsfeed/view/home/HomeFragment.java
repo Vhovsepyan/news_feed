@@ -70,7 +70,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
 
     private BaseClickListener baseClickListener = obj -> {
         Bundle bundle = new Bundle();
-        bundle.putString(ArticleInfoFragment.BUNDLE_ARTICLE_ID_KEY_INFO, ((Article)obj).getId());
+        bundle.putString(ArticleInfoFragment.BUNDLE_ARTICLE_API_URL_KEY_INFO, ((Article) obj).getApiUrl());
         getNavController().navigate(R.id.infoFragment, bundle);
     };
 

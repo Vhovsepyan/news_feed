@@ -38,6 +38,8 @@ public class Article implements BaseObject, Parcelable {
 
     private int thumbnailHeight;
 
+    private String apiUrl;
+
     public Article() {
     }
 
@@ -70,6 +72,7 @@ public class Article implements BaseObject, Parcelable {
         this.body = requestModel.getFields().getBody();
         this.thumbnailHeight = getRandomHeight();
         this.thumbnailWidth = getRandomWidth();
+        this.apiUrl = requestModel.getApiUrl();
     }
 
     protected Article(Parcel in) {
@@ -86,6 +89,7 @@ public class Article implements BaseObject, Parcelable {
         isPinned = in.readByte() != 0;
         thumbnailWidth = in.readInt();
         thumbnailHeight = in.readInt();
+        apiUrl = in.readString();
     }
 
     @Override
@@ -103,6 +107,7 @@ public class Article implements BaseObject, Parcelable {
         dest.writeByte((byte) (isPinned ? 1 : 0));
         dest.writeInt(thumbnailWidth);
         dest.writeInt(thumbnailHeight);
+        dest.writeString(apiUrl);
     }
 
     @Override
@@ -216,6 +221,14 @@ public class Article implements BaseObject, Parcelable {
 
     public int getThumbnailHeight() {
         return thumbnailHeight;
+    }
+
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
     }
 
     private int getRandomHeight() {

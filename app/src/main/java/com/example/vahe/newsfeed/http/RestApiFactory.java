@@ -4,12 +4,11 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RestApiFactory {
 
-    private static final String BASE_URL = "https://content.guardianapis.com/";
+    private static final String BASE_URL = "https://content.guardianapis.com";
 
     public static RestApi create() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -27,7 +26,6 @@ public class RestApiFactory {
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(httpClient.build())
                 .build();
         return retrofit.create(RestApi.class);

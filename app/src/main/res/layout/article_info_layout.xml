@@ -4,10 +4,6 @@
     <data>
 
         <variable
-            name="articleItem"
-            type="com.example.vahe.newsfeed.model.Article" />
-
-        <variable
             name="viewModel"
             type="com.example.vahe.newsfeed.view.info.ArticleVM" />
     </data>
@@ -31,14 +27,14 @@
                 android:paddingStart="@dimen/padding"
                 android:paddingTop="@dimen/padding"
                 android:paddingEnd="@dimen/padding"
-                android:text="@{articleItem.webTitle}"
+                android:text="@{viewModel.article.webTitle}"
                 android:textColor="@color/color_black"
                 android:textSize="@dimen/big_text_size" />
 
 
             <TextView
                 android:id="@+id/trail_text"
-                setHTMLText="@{articleItem.trailText}"
+                setHTMLText="@{viewModel.article.trailText}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/headline_text"
@@ -51,7 +47,7 @@
 
             <ImageView
                 android:id="@+id/image"
-                src="@{articleItem.thumbnail}"
+                src="@{viewModel.article.thumbnail}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/trail_text"
@@ -62,7 +58,7 @@
 
             <TextView
                 android:id="@+id/body"
-                setHTMLText="@{articleItem.body}"
+                setHTMLText="@{viewModel.article.body}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/image"
@@ -71,6 +67,14 @@
                 android:paddingTop="@dimen/padding"
                 android:paddingEnd="@dimen/padding"
                 android:textSize="@dimen/middle_text_size" />
+
+            <ProgressBar
+                android:id="@+id/indeterminateBar"
+                visibility="@{viewModel.isProgessBarVisible}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
         </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
