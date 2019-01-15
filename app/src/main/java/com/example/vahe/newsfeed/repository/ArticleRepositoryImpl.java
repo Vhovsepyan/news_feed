@@ -20,8 +20,8 @@ import com.example.vahe.newsfeed.model.request.ArticleResponseModel;
 import com.example.vahe.newsfeed.model.request.BaseResponseModel;
 import com.example.vahe.newsfeed.model.request.PageInfoResponseModel;
 import com.example.vahe.newsfeed.utils.AppLog;
+import com.example.vahe.newsfeed.utils.UrlConstants;
 
-import java.util.List;
 import java.util.concurrent.Executor;
 
 import retrofit2.Call;
@@ -32,9 +32,6 @@ public class ArticleRepositoryImpl<T extends BaseObject> implements ArticleRepos
 
     private ArticleDao articleDao;
     private RestApi restApi;
-
-    private MutableLiveData<List<T>> objectList;
-    private MutableLiveData<T> object = new MutableLiveData<>();
 
     private LiveData<NetworkState> networkState;
     private LiveData<PagedList<Article>> articleLiveData;
@@ -63,13 +60,13 @@ public class ArticleRepositoryImpl<T extends BaseObject> implements ArticleRepos
 
     @Override
     public Call<BaseResponseModel<PageInfoResponseModel>> getNewsPageInfo(long page, long pageSize) {
-        return getRestApi().getNewsPageInfo(page, pageSize);
+        return getRestApi().getNewsPageInfo(page, pageSize, UrlConstants.SHOW_FIELDS);
     }
 
     @Override
-    public LiveData<Article> getPageByApiUrl(String apiUrl, String showFields) {
+    public LiveData<Article> getPageByApiUrl(String apiUrl) {
         MutableLiveData<Article> articleMutableLiveData = new MutableLiveData<>();
-        getRestApi().getPageByApiUrl(apiUrl, showFields).enqueue(new Callback<BaseResponseModel<ArticleResponseModel>>() {
+        getRestApi().getPageByApiUrl(apiUrl, UrlConstants.SHOW_FIELDS_WITH_BODEY).enqueue(new Callback<BaseResponseModel<ArticleResponseModel>>() {
             @Override
             public void onResponse(Call<BaseResponseModel<ArticleResponseModel>> call, Response<BaseResponseModel<ArticleResponseModel>> response) {
                 Article article = new Article(response.body().getResponse().getContent());
@@ -105,6 +102,17 @@ public class ArticleRepositoryImpl<T extends BaseObject> implements ArticleRepos
         getExecutor(ExecutorType.DB_COMMUNICATION).execute(() -> {
             articleDao.delete(new ArticleTable(items));
         });
+    }
+
+    @Override
+    public LiveData<Article> getArticleById(String id) {
+        MutableLiveData<Article> articleMutableLiveData = new MutableLiveData<>();
+        getExecutor(ExecutorType.DB_COMMUNICATION).execute(() -> {
+            ArticleTable articleTable = articleDao.getArticleById(id);
+            Article article = new Article(articleTable);
+            articleMutableLiveData.postValue(article);
+        });
+        return articleMutableLiveData;
     }
 
     private Executor getExecutor(@ExecutorType int type) {

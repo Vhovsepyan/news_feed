@@ -10,9 +10,10 @@ import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 public interface RestApi {
-    @GET("/search?show-fields=thumbnail,trailText,headline")
+    @GET("/search")
     Call<BaseResponseModel<PageInfoResponseModel>> getNewsPageInfo(@Query("page") long page,
-                                                                   @Query("pageSize") long pageSize);
+                                                                   @Query("pageSize") long pageSize,
+                                                                   @Query("show-fields") String showFields);
 
     @GET
     Call<BaseResponseModel<ArticleResponseModel>> getPageByApiUrl(

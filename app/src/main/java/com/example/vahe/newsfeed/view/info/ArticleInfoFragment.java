@@ -18,9 +18,10 @@ import com.example.vahe.newsfeed.view.BaseVM;
 
 public class ArticleInfoFragment extends BaseFragment {
 
-    public static final String BUNDLE_ARTICLE_API_URL_KEY_INFO = "BUNDLE_ARTICLE_API_URL_KEY_INFO";
+    public static final String BUNDLE_ARTICLE_ID_KEY_INFO = "BUNDLE_ARTICLE_ID_KEY_INFO";
     private ArticleVM viewModel;
     private Bundle bundle;
+    private Menu menu;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,17 +45,24 @@ public class ArticleInfoFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bundle = getArguments();
-        String articleApiUrl = "";
-        if (bundle != null && bundle.containsKey(ArticleInfoFragment.BUNDLE_ARTICLE_API_URL_KEY_INFO)) {
-            articleApiUrl = bundle.getString(ArticleInfoFragment.BUNDLE_ARTICLE_API_URL_KEY_INFO);
+        String articleId = "";
+        if (bundle != null && bundle.containsKey(ArticleInfoFragment.BUNDLE_ARTICLE_ID_KEY_INFO)) {
+            articleId = bundle.getString(ArticleInfoFragment.BUNDLE_ARTICLE_ID_KEY_INFO);
 
         }
-        viewModel.init(articleApiUrl, "thumbnail,trailText,headline,body");
-        viewModel.getArticleLiveData().observe(this, article -> {
+        viewModel.init(articleId);
+        viewModel.getArticleFromApiLiveData().observe(this, article -> {
             AppLog.i(" article = " + article);
             viewModel.setArticle(article);
         });
 
+        viewModel.getArticleFromDBLiveData().observe(this, article -> {
+            if (article != null && article.isPinned()) {
+                viewModel.setArticle(article);
+                MenuItem menuItem = menu.findItem(R.id.action_pin);
+                menuItem.setTitle(getString(R.string.pinned_text));
+            }
+        });
 
     }
 
@@ -71,6 +79,8 @@ public class ArticleInfoFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.article_info_menu, menu);
+        this.menu = menu;
     }
 
     @Override
@@ -80,6 +90,7 @@ public class ArticleInfoFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        viewModel.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
     }
 }

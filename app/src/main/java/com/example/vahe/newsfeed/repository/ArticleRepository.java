@@ -14,10 +14,12 @@ public interface ArticleRepository extends BaseRepository<Article> {
 
     Call<BaseResponseModel<PageInfoResponseModel>> getNewsPageInfo(long page, long pageSize);
 
-    LiveData<Article> getPageByApiUrl(String apiUrl, String showFields);
+    LiveData<Article> getPageByApiUrl(String apiUrl);
 
     LiveData<NetworkState> getNetworkState();
 
     LiveData<PagedList<Article>> getArticleLiveData();
+
+    LiveData<Article> getArticleById(String id);
 
 }
