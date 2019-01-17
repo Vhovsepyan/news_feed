@@ -22,6 +22,7 @@ import com.example.vahe.newsfeed.model.request.PageInfoResponseModel;
 import com.example.vahe.newsfeed.utils.AppLog;
 import com.example.vahe.newsfeed.utils.UrlConstants;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 
 import retrofit2.Call;
@@ -114,6 +115,12 @@ public class ArticleRepositoryImpl<T extends BaseObject> implements ArticleRepos
         });
         return articleMutableLiveData;
     }
+
+    @Override
+    public LiveData<List<ArticleTable>> getPinnedArticles() {
+        return articleDao.getPinnedArticles();
+    }
+
 
     private Executor getExecutor(@ExecutorType int type) {
         return ExecutorService.getExecutor(type);

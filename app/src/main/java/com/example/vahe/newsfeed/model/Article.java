@@ -7,6 +7,7 @@ import android.support.v7.util.DiffUtil;
 
 import com.example.vahe.newsfeed.model.entity.ArticleTable;
 import com.example.vahe.newsfeed.model.request.ArticleContentModel;
+import com.example.vahe.newsfeed.utils.DateUtlis;
 
 import java.util.Random;
 
@@ -40,6 +41,8 @@ public class Article implements BaseObject, Parcelable {
 
     private String apiUrl;
 
+    private String dateForShow;
+
     public Article() {
     }
 
@@ -57,6 +60,7 @@ public class Article implements BaseObject, Parcelable {
         this.isPinned = articleTable.isPinned();
         this.thumbnailHeight = getRandomHeight();
         this.thumbnailWidth = getRandomWidth();
+        this.dateForShow = DateUtlis.getDate(articleTable.getWebPublicationDate());
     }
 
     public Article(ArticleContentModel requestModel) {
@@ -73,6 +77,7 @@ public class Article implements BaseObject, Parcelable {
         this.thumbnailHeight = getRandomHeight();
         this.thumbnailWidth = getRandomWidth();
         this.apiUrl = requestModel.getApiUrl();
+        this.dateForShow = DateUtlis.getDate(requestModel.getWebPublicationDate());
     }
 
     protected Article(Parcel in) {
@@ -90,6 +95,7 @@ public class Article implements BaseObject, Parcelable {
         thumbnailWidth = in.readInt();
         thumbnailHeight = in.readInt();
         apiUrl = in.readString();
+        this.dateForShow = DateUtlis.getDate(webPublicationDate);
     }
 
     @Override
@@ -229,6 +235,14 @@ public class Article implements BaseObject, Parcelable {
 
     public void setApiUrl(String apiUrl) {
         this.apiUrl = apiUrl;
+    }
+
+    public String getDateForShow() {
+        return dateForShow;
+    }
+
+    public void setDateForShow(String dateForShow) {
+        this.dateForShow = dateForShow;
     }
 
     private int getRandomHeight() {

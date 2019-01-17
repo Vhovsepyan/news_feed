@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#1f000000">
-        <!--<TextView
+
+        <TextView
             android:id="@+id/pinned_text_layout"
             visibility="@{viewModel.isPinnedVisible}"
             android:layout_width="wrap_content"
@@ -25,7 +26,6 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/pinned_news_recycler_view"
-            initHorizontalRecyclerView="@{viewModel.pinnedAdapter}"
             visibility="@{viewModel.isPinnedVisible}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:layout_height="1dp"
             android:layout_below="@+id/pinned_news_recycler_view"
             android:layout_marginTop="@dimen/half_padding"
-            android:background="@color/color_grey" />-->
+            android:background="@color/color_grey" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_recycler_view"
@@ -62,7 +62,7 @@
 -->
 
         <ProgressBar
-            android:id="@+id/indeterminateBar"
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"

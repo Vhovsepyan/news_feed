@@ -24,13 +24,19 @@ import com.example.vahe.newsfeed.utils.Constants;
 import com.example.vahe.newsfeed.view.BaseFragment;
 import com.example.vahe.newsfeed.view.BaseVM;
 import com.example.vahe.newsfeed.view.adapter.ArticleAdapter;
+import com.example.vahe.newsfeed.view.adapter.BaseAdapter;
 import com.example.vahe.newsfeed.view.info.ArticleInfoFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
     private ArticleListViewModel viewModel;
+    private RecyclerView pinnedRecyclerView;
     private RecyclerView listRecyclerView;
     private RecyclerView staggeredRecyclerView;
     private ArticleAdapter adapter;
+    private BaseAdapter<Article> pinnedAdapter;
 
     @Override
     public void onAttach(Context context) {
@@ -54,8 +60,9 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         adapter = new ArticleAdapter(baseClickListener);
+        pinnedAdapter = new BaseAdapter<>(baseClickListener, 0);
 
-        viewModel.getArticleLiveData().observe(this, pagedList -> {
+        viewModel.getArticleFromApi().observe(this, pagedList -> {
             adapter.submitList(pagedList);
         });
 
@@ -63,8 +70,24 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
             adapter.setNetworkState(networkState);
         });
 
+        viewModel.getArticleFromDB().observe(this, articleTables -> {
+            List<Article> articles = new ArrayList<>();
+            if (articleTables != null) {
+                for (int i = 0; i < articleTables.size(); i++) {
+                    Article article = new Article(articleTables.get(i));
+                    articles.add(article);
+                }
+            }
+            pinnedAdapter.setItems(articles);
+        });
+
         listRecyclerView.setLayoutManager(new LinearLayoutManager(getApplication()));
         listRecyclerView.setAdapter(adapter);
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(getApplication(), LinearLayoutManager.HORIZONTAL, false);
+        pinnedRecyclerView.setLayoutManager(layoutManager);
+        pinnedRecyclerView.setAdapter(pinnedAdapter);
 
     }
 
@@ -93,6 +116,7 @@ public class HomeFragment extends BaseFragment<HomeFragmentBinding> {
     @Override
     protected BaseVM onBindViewModel(HomeFragmentBinding binding) {
         listRecyclerView = binding.listRecyclerView;
+        pinnedRecyclerView = binding.pinnedNewsRecyclerView;
         return null;
     }
 

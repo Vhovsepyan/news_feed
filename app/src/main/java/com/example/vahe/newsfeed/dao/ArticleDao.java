@@ -1,5 +1,6 @@
 package com.example.vahe.newsfeed.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 
@@ -14,6 +15,6 @@ public interface ArticleDao extends BaseDao<ArticleTable> {
     ArticleTable getArticleById(String articleId);
 
     @Query("SELECT * FROM article_table")
-    List<ArticleTable> getPinnedArticles();
+    LiveData<List<ArticleTable>> getPinnedArticles();
 
 }
